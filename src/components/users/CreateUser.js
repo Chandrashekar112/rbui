@@ -45,6 +45,7 @@ const CreateUser = () => {
   }, []);
 
   const onSubmit = (data) => {
+    console.log(data);
     services.userServiceAPI
       .createUser(data)
       .then((success) => getUserFun())

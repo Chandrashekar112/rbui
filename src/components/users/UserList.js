@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Container from "@material-ui/core/Container";
+import Button from "@material-ui/core/Button";
 import { useForm } from "react-hook-form";
 
 import { DataGrid } from "@material-ui/data-grid";
@@ -29,7 +30,58 @@ const useStyles = makeStyles((theme) => ({
 const UserList = () => {
   const classes = useStyles();
   const methods = useForm();
-  const [userList, setUserList] = useState([]);
+  const [userList, setUserList] = useState([
+    {
+      _id: 1,
+      firstName: "user",
+      lastName: "simth",
+      email: "user@gmail.com",
+      mobileNo: "9999999999",
+      address: "HYD",
+    },
+    {
+      _id: 2,
+      firstName: "user2",
+      lastName: "sam",
+      email: "sam@gmail.com",
+      mobileNo: "8888888888",
+      address: "BLR",
+    },
+  ]);
+
+  const actionButton = (params) => {
+    // console.log(params.id);
+
+    return (
+      <div>
+        <button onClick={() => editUser(params)}>Edit</button>
+        <button onClick={() => deleteUser(params)}>Delete</button>
+      </div>
+    );
+  };
+
+  const editUser = async (props) => {
+    console.log("edit user", props);
+  };
+
+  const deleteUser = (props) => {
+    console.log("delete user", props);
+  };
+
+  const columns = [
+    { field: "_id", headerName: "Id", width: 160 },
+    { field: "firstName", headerName: "First Name", width: 160 },
+    { field: "lastName", headerName: "Last Name", width: 160 },
+    { field: "email", headerName: "Email ", width: 160 },
+    { field: "mobileNo", headerName: "Mobile Number", width: 160 },
+    { field: "address", headerName: "Address", width: 160 },
+    {
+      field: "",
+      headerName: "Actions",
+      renderCell: actionButton,
+      width: 160,
+    },
+  ];
 
   useEffect(() => {
     let masterData = () => {
@@ -40,20 +92,6 @@ const UserList = () => {
     };
     masterData();
   }, []);
-
-  const editFun = (user) => {};
-
-  const columns = [
-    { field: "_id", headerName: "Id", width: 160 },
-    { field: "firstName", headerName: "First Name", width: 160 },
-    { field: "lastName", headerName: "Last Name", width: 160 },
-    { field: "email", headerName: "Email ", width: 160 },
-    { field: "mobileNo", headerName: "Mobile Number", width: 160 },
-    { field: "address", headerName: "Address", width: 160 },
-    { field: "", headerName: "Actions", width: 160 },
-  ];
-
-  // console.log(userList);
 
   const userData = () => {
     let users = userList.map((item, i, a) => (a[i] = { id: i + 1, ...item }));
@@ -78,7 +116,7 @@ const UserList = () => {
                     columns={columns}
                     rows={userData()}
                     pageSize={5}
-                    checkboxSelection
+                    // checkboxSelection
                   />
                 </div>
                 {/* <tabel style={{ border: " 1px solid black" }}>
