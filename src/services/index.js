@@ -1,3 +1,4 @@
 import { userServiceAPI } from "./userService";
+import { orderService } from "./orderService";
 
-export default { userServiceAPI };
+export default { userServiceAPI, orderService };
