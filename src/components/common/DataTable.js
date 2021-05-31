@@ -26,7 +26,7 @@ function CustomPagination() {
     <Pagination
       className={classes.root}
       color="primary"
-      //   variant="outlined"
+      // variant="outlined"
       count={state.pagination.pageCount}
       page={state.pagination.page + 1}
       onChange={(event, value) => apiRef.current.setPage(value - 1)}
@@ -60,6 +60,7 @@ const DataTable = ({ columns, rows, filterModel }) => {
       // checkboxSelection
       filterModel={filterModel}
       disableColumnFilter
+      disableColumnMenu
     />
   );
 };

@@ -130,6 +130,10 @@ const Orders = () => {
     filterData();
   };
 
+  const handelsubmitDataFile = (data) => {
+    console.log(data);
+  };
+
   const filterData = () => {
     const filterModel = {};
     filterModel.items = [];
@@ -237,6 +241,15 @@ const Orders = () => {
         </form>
       </Paper>
 
+      {/* <Button
+                type="submit"
+                variant="contained"
+                color="default"
+                style={{ marginTop: "9px", marginRight: "10px" }}
+              >
+                Clear
+              </Button> */}
+
       <Paper className={classes.paper}>
         <div style={{ height: 500, width: "100%" }}>
           <DataTable
@@ -257,7 +270,7 @@ const Orders = () => {
               size="small"
               color="primary"
             >
-              Add New
+              Add New Retailer
             </Button>
             <Button
               className={classes.btn}

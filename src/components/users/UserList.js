@@ -119,43 +119,6 @@ const UserList = () => {
                     // checkboxSelection
                   />
                 </div>
-                {/* <tabel style={{ border: " 1px solid black" }}>
-                  <thead>
-                    <tr>
-                      <th>FirstName</th>
-                      <th>lastName</th>
-                      <th>Email</th>
-                      <th>Mobile Numner</th>
-                      <th>Address</th>
-                      <th>Created Date</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody style={{ border: " 1px solid black" }}>
-                    {userList.length > 0
-                      ? userList.map((user, i) => (
-                          <tr key={i}>
-                            <td>{user.firstName}</td>
-                            <td>{user.lastName}</td>
-                            <td>{user.email}</td>
-                            <td>{user.mobileNo}</td>
-                            <td>{user.address}</td>
-                            <td>{user.created}</td>
-                            <td>
-                              <button onClick={() => editFun(user)}>
-                                Edit
-                              </button>
-                            </td>
-                            <td>
-                              <button onClick={() => deleteFun(user._id)}>
-                                Delete
-                              </button>
-                            </td>
-                          </tr>
-                        ))
-                      : ""}
-                  </tbody>
-                </tabel> */}
               </Paper>
             </Container>
           </Grid>

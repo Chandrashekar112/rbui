@@ -1,7 +1,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const pool = require("./src/modules/pool");
+
+const pool = require("./modules/pool");
 require("dotenv/config");
 
 const app = express();
@@ -28,8 +29,8 @@ pool.connect((err) => {
 });
 // });
 
-const orderRouter = require("./src/routers/order");
-const retailerRouter = require("./src/routers/retailer");
+const orderRouter = require("./routers/order");
+const retailerRouter = require("./routers/retailer");
 
 app.use("/order", orderRouter);
 app.use("/retailer", retailerRouter);

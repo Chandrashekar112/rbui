@@ -5,7 +5,7 @@ import Signup from "../signup/Signup";
 import UserList from "../users/UserList";
 import Home from "../layout/Home";
 import Orders from "../orders/Orders";
-import Retailer from "../orders/Retailer";
+import Retailer from "../retailer/Retailer";
 
 function Routes() {
   return (
