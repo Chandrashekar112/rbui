@@ -5,6 +5,7 @@ import Signup from "../signup/Signup";
 import UserList from "../users/UserList";
 import Home from "../layout/Home";
 import Orders from "../orders/Orders";
+import Retailer from "../orders/Retailer";
 
 function Routes() {
   return (
@@ -14,6 +15,7 @@ function Routes() {
       {/* <Route exact path="/home" component={Home} /> */}
       <Route exact path="/users" component={UserList} />
       <Route exact path="/orders" component={Orders} />
+      <Route exact path="/retailer" component={Retailer} />
     </Switch>
   );
 }

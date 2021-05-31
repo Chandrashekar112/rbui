@@ -95,7 +95,7 @@ const Home = () => {
     const list = [
       { menuName: "Home", pathName: "/" },
       { menuName: "Orders", pathName: "/orders" },
-      { menuName: "User List", pathName: "/users" },
+      { menuName: "Retailer Setting", pathName: "/retailer" },
     ];
 
     return list.map((item, index) => (
@@ -127,7 +127,7 @@ const Home = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            ReserveBar
+            Retailer Setting
           </Typography>
         </Toolbar>
       </AppBar>
