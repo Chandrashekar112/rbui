@@ -5,10 +5,16 @@ import Grid from "@material-ui/core/Grid";
 import { TextField } from "@material-ui/core";
 import { useForm, Controller } from "react-hook-form";
 import Button from "@material-ui/core/Button";
+import AddIcon from "@material-ui/icons/Add";
+import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
+import Radio from "@material-ui/core/Radio";
 
 import services from "../../services";
 
 import DataTable from "../common/DataTable";
+
+import TextFieldGroup from "../common/TextFieldGroup";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,21 +40,35 @@ const Orders = () => {
   const { register, control, handleSubmit } = methods;
   const [retailer, setRetailer] = useState([]);
   const [retailerSearchObj, setretailerSearchObj] = useState({});
+  const [selectedValue, setSelectedValue] = React.useState("");
+
+  const handleChange = (props) => {
+    setSelectedValue(props.id);
+  };
 
   const actionButton = (params) => {
     // console.log(params.id);
     return (
       <div>
-        <button onClick={() => editUser(params)}>Edit</button>
+        <Radio
+          checked={selectedValue === params.id}
+          onChange={() => handleChange(params)}
+          value="d"
+          color="primary"
+          name="radio-button-demo"
+          inputProps={{ "aria-label": selectedValue }}
+        />
       </div>
     );
   };
 
-  const editUser = async (props) => {
-    console.log("edit user", props);
-  };
-
   const columns = [
+    {
+      field: "",
+      headerName: "",
+      renderCell: actionButton,
+      width: 70,
+    },
     { field: "company_id", headerName: "Company Id", width: 160 },
     {
       field: "retailer_name",
@@ -101,12 +121,6 @@ const Orders = () => {
     },
     { field: "include_tax", headerName: "Include Tax", width: 160 },
     { field: "include_ccfee", headerName: "Include ccfee", width: 160 },
-    {
-      field: "",
-      headerName: "Actions",
-      renderCell: actionButton,
-      width: 100,
-    },
   ];
 
   useEffect(() => {
@@ -126,12 +140,9 @@ const Orders = () => {
 
   const onSubmit = async (data) => {
     console.log(data);
+    setSelectedValue("");
     setretailerSearchObj(data);
     filterData();
-  };
-
-  const handelsubmitDataFile = (data) => {
-    console.log(data);
   };
 
   const filterData = () => {
@@ -162,69 +173,43 @@ const Orders = () => {
   return (
     <div className={classes.root}>
       <Paper className={classes.paper} style={{ marginBottom: "10px" }}>
-        <h2>Retailer Setting </h2>
+        <h2>Retailer Setting List </h2>
       </Paper>
 
       <Paper className={classes.paper} style={{ marginBottom: "10px" }}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2}>
             <Grid item sm={2}>
-              <Controller
+              <TextFieldGroup
                 name="company_id"
                 control={control}
                 defaultValue=""
-                render={({
-                  field: { onChange, value },
-                  // fieldState: { error },
-                }) => (
-                  <TextField
-                    label="Company Id"
-                    value={value}
-                    className={classes.textField}
-                    onChange={onChange}
-                    margin="dense"
-                    variant="outlined"
-                  />
-                )}
+                label="Company Id"
+                className={classes.textField}
+                margin="dense"
+                variant="outlined"
               />
             </Grid>
             <Grid item sm={2}>
-              <Controller
+              <TextFieldGroup
                 name="retailer_name"
                 control={control}
                 defaultValue=""
-                render={({
-                  field: { onChange, value },
-                  fieldState: { error },
-                }) => (
-                  <TextField
-                    label="Retailer Name"
-                    value={value}
-                    className={classes.textField}
-                    onChange={onChange}
-                    margin="dense"
-                    variant="outlined"
-                  />
-                )}
+                label="Retailer Name"
+                className={classes.textField}
+                margin="dense"
+                variant="outlined"
               />
             </Grid>
             <Grid item sm={2}>
-              <Controller
+              <TextFieldGroup
                 name="retailer_state"
                 control={control}
                 defaultValue=""
-                render={({
-                  field: { onChange, value },
-                  fieldState: { error },
-                }) => (
-                  <TextField
-                    label="Retailer State"
-                    value={value}
-                    onChange={onChange}
-                    margin="dense"
-                    variant="outlined"
-                  />
-                )}
+                label="Retailer State"
+                className={classes.textField}
+                margin="dense"
+                variant="outlined"
               />
             </Grid>
             <Grid item sm={2}>
@@ -241,15 +226,6 @@ const Orders = () => {
         </form>
       </Paper>
 
-      {/* <Button
-                type="submit"
-                variant="contained"
-                color="default"
-                style={{ marginTop: "9px", marginRight: "10px" }}
-              >
-                Clear
-              </Button> */}
-
       <Paper className={classes.paper}>
         <div style={{ height: 500, width: "100%" }}>
           <DataTable
@@ -262,13 +238,15 @@ const Orders = () => {
 
       <Paper className={classes.paper} style={{ marginTop: "10px" }}>
         <Grid container spacing={2}>
-          <Grid item sm={9}></Grid>
-          <Grid item sm={3}>
+          <Grid item sm={8}></Grid>
+          <Grid item sm={4}>
             <Button
               className={classes.btn}
               variant="contained"
               size="small"
               color="primary"
+              startIcon={<AddIcon />}
+              // disabled={selectedValue ? true : false}
             >
               Add New Retailer
             </Button>
@@ -277,11 +255,18 @@ const Orders = () => {
               variant="contained"
               size="small"
               color="primary"
-              disabled
+              startIcon={<EditIcon />}
+              disabled={!selectedValue ? true : false}
             >
               Edit
             </Button>
-            <Button variant="contained" color="primary" size="small" disabled>
+            <Button
+              variant="contained"
+              color="secondary"
+              size="small"
+              startIcon={<DeleteIcon />}
+              disabled={!selectedValue ? true : false}
+            >
               Delete
             </Button>
           </Grid>
