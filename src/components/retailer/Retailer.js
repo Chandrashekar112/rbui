@@ -172,9 +172,9 @@ const Orders = () => {
 
   return (
     <div className={classes.root}>
-      <Paper className={classes.paper} style={{ marginBottom: "10px" }}>
+      {/* <Paper className={classes.paper} style={{ marginBottom: "10px" }}>
         <h2>Retailer Setting List </h2>
-      </Paper>
+      </Paper> */}
 
       <Paper className={classes.paper} style={{ marginBottom: "10px" }}>
         <form onSubmit={handleSubmit(onSubmit)}>
