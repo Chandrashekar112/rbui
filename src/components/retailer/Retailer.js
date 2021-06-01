@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-import { TextField } from "@material-ui/core";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import Button from "@material-ui/core/Button";
 import AddIcon from "@material-ui/icons/Add";
 import EditIcon from "@material-ui/icons/Edit";
@@ -43,7 +42,7 @@ const Orders = () => {
   const [selectedValue, setSelectedValue] = React.useState("");
 
   const handleChange = (props) => {
-    setSelectedValue(props.id);
+    setSelectedValue(props);
   };
 
   const actionButton = (params) => {
@@ -51,7 +50,7 @@ const Orders = () => {
     return (
       <div>
         <Radio
-          checked={selectedValue === params.id}
+          checked={selectedValue.id === params.id}
           onChange={() => handleChange(params)}
           value="d"
           color="primary"
@@ -151,6 +150,7 @@ const Orders = () => {
     if (retailerSearchObj.company_id) {
       filterModel.items[0] = {
         columnField: "company_id",
+        operatorValue: "equals",
         value: retailerSearchObj.company_id,
       };
     } else if (retailerSearchObj.retailer_name) {
@@ -168,6 +168,11 @@ const Orders = () => {
     }
     console.log(filterModel);
     return filterModel;
+  };
+
+  /*edit retailer setting function */
+  const editRetailer = (params) => {
+    console.log(params.row);
   };
 
   return (
@@ -188,6 +193,12 @@ const Orders = () => {
                 className={classes.textField}
                 margin="dense"
                 variant="outlined"
+                rules={{
+                  pattern: {
+                    value: /^[0-9]+$/,
+                    message: "Only allowed numbers",
+                  },
+                }}
               />
             </Grid>
             <Grid item sm={2}>
@@ -199,6 +210,12 @@ const Orders = () => {
                 className={classes.textField}
                 margin="dense"
                 variant="outlined"
+                rules={{
+                  pattern: {
+                    value: /^[A-Za-z]+$/i,
+                    message: "Only allowed Uppercase and lowercase letters",
+                  },
+                }}
               />
             </Grid>
             <Grid item sm={2}>
@@ -210,6 +227,12 @@ const Orders = () => {
                 className={classes.textField}
                 margin="dense"
                 variant="outlined"
+                rules={{
+                  pattern: {
+                    value: /^[A-Za-z]+$/i,
+                    message: "Only allowed Uppercase and lowercase letters",
+                  },
+                }}
               />
             </Grid>
             <Grid item sm={2}>
@@ -226,15 +249,21 @@ const Orders = () => {
         </form>
       </Paper>
 
-      <Paper className={classes.paper}>
-        <div style={{ height: 500, width: "100%" }}>
-          <DataTable
-            columns={columns}
-            rows={userData()}
-            filterModel={filterData()}
-          />
-        </div>
-      </Paper>
+      {retailerSearchObj.company_id ||
+      retailerSearchObj.retailer_name ||
+      retailerSearchObj.retailer_state ? (
+        <Paper className={classes.paper}>
+          <div style={{ height: 500, width: "100%" }}>
+            <DataTable
+              columns={columns}
+              rows={userData()}
+              filterModel={filterData()}
+            />
+          </div>
+        </Paper>
+      ) : (
+        ""
+      )}
 
       <Paper className={classes.paper} style={{ marginTop: "10px" }}>
         <Grid container spacing={2}>
@@ -246,7 +275,6 @@ const Orders = () => {
               size="small"
               color="primary"
               startIcon={<AddIcon />}
-              // disabled={selectedValue ? true : false}
             >
               Add New Retailer
             </Button>
@@ -257,6 +285,7 @@ const Orders = () => {
               color="primary"
               startIcon={<EditIcon />}
               disabled={!selectedValue ? true : false}
+              onClick={() => editRetailer(selectedValue)}
             >
               Edit
             </Button>

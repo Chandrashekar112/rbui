@@ -3,11 +3,6 @@ import { TextField } from "@material-ui/core";
 import { PropTypes } from "prop-types";
 import { Controller } from "react-hook-form";
 
-const onChange = (e) => {
-  const { name, value } = e.target.value;
-  console.log(name, value);
-};
-
 const TextFieldGroup = ({
   name,
   id,
@@ -18,11 +13,11 @@ const TextFieldGroup = ({
   control,
   rules,
   label,
-  register,
+  ref,
 }) => {
   return (
     <Controller
-      render={({ field: { onChange, value }, fieldState: { error } }) => (
+      render={({ field: { onChange, value }, fieldState: { error, ref } }) => (
         <TextField
           label={label}
           value={value}
@@ -39,8 +34,8 @@ const TextFieldGroup = ({
       className={className}
       control={control}
       defaultValue={defaultValue}
-      register={register}
       rules={rules}
+      ref={ref}
     />
   );
 };

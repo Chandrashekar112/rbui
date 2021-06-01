@@ -127,7 +127,7 @@ const Home = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            ReserveBar – Retailer Setting
+            ReserveBar–Retailer Setting
           </Typography>
         </Toolbar>
       </AppBar>
