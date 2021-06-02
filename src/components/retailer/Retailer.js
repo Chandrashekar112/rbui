@@ -249,21 +249,15 @@ const Orders = () => {
         </form>
       </Paper>
 
-      {retailerSearchObj.company_id ||
-      retailerSearchObj.retailer_name ||
-      retailerSearchObj.retailer_state ? (
-        <Paper className={classes.paper}>
-          <div style={{ height: 500, width: "100%" }}>
-            <DataTable
-              columns={columns}
-              rows={userData()}
-              filterModel={filterData()}
-            />
-          </div>
-        </Paper>
-      ) : (
-        ""
-      )}
+      <Paper className={classes.paper}>
+        <div style={{ height: 500, width: "100%" }}>
+          <DataTable
+            columns={columns}
+            rows={userData()}
+            filterModel={filterData()}
+          />
+        </div>
+      </Paper>
 
       <Paper className={classes.paper} style={{ marginTop: "10px" }}>
         <Grid container spacing={2}>
