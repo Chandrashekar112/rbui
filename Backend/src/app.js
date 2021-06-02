@@ -10,7 +10,7 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true })).use(bodyParser.json());
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 5000;
 
 app.get("/", (req, res) => {
   res.send("Server running Successfully");
