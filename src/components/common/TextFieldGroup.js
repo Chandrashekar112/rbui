@@ -13,11 +13,10 @@ const TextFieldGroup = ({
   control,
   rules,
   label,
-  ref,
 }) => {
   return (
     <Controller
-      render={({ field: { onChange, value }, fieldState: { error, ref } }) => (
+      render={({ field: { onChange, value }, fieldState: { error } }) => (
         <TextField
           label={label}
           value={value}
@@ -35,7 +34,6 @@ const TextFieldGroup = ({
       control={control}
       defaultValue={defaultValue}
       rules={rules}
-      ref={ref}
     />
   );
 };

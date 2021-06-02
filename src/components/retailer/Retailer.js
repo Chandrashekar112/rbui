@@ -2,18 +2,25 @@ import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-import { useForm } from "react-hook-form";
+import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import AddIcon from "@material-ui/icons/Add";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Radio from "@material-ui/core/Radio";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import parse from "autosuggest-highlight/parse";
+import match from "autosuggest-highlight/match";
+
+import { useForm, Controller } from "react-hook-form";
 
 import services from "../../services";
 
 import DataTable from "../common/DataTable";
 
 import TextFieldGroup from "../common/TextFieldGroup";
+
+import AddRetailer from "./AddRetailer";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,10 +43,13 @@ const useStyles = makeStyles((theme) => ({
 const Orders = () => {
   const classes = useStyles();
   const methods = useForm();
-  const { register, control, handleSubmit } = methods;
+  const { control, handleSubmit } = methods;
   const [retailer, setRetailer] = useState([]);
   const [retailerSearchObj, setretailerSearchObj] = useState({});
-  const [selectedValue, setSelectedValue] = React.useState("");
+  const [selectedValue, setSelectedValue] = React.useState({});
+  const [open, setOpen] = React.useState(false);
+  const [scroll, setScroll] = React.useState("paper");
+  const [editFlag, setEditFlag] = useState("");
 
   const handleChange = (props) => {
     setSelectedValue(props);
@@ -55,7 +65,7 @@ const Orders = () => {
           value="d"
           color="primary"
           name="radio-button-demo"
-          inputProps={{ "aria-label": selectedValue }}
+          inputProps={{ "aria-label": selectedValue.id }}
         />
       </div>
     );
@@ -139,7 +149,7 @@ const Orders = () => {
 
   const onSubmit = async (data) => {
     console.log(data);
-    setSelectedValue("");
+    setSelectedValue({});
     setretailerSearchObj(data);
     filterData();
   };
@@ -175,6 +185,26 @@ const Orders = () => {
     console.log(params.row);
   };
 
+  const descriptionElementRef = React.useRef(null);
+  useEffect(() => {
+    if (open) {
+      const { current: descriptionElement } = descriptionElementRef;
+      if (descriptionElement !== null) {
+        descriptionElement.focus();
+      }
+    }
+  }, [open]);
+
+  const handleClickOpen = (scrollType, flag) => () => {
+    setOpen(true);
+    setScroll(scrollType);
+    setEditFlag(flag);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <div className={classes.root}>
       {/* <Paper className={classes.paper} style={{ marginBottom: "10px" }}>
@@ -200,6 +230,25 @@ const Orders = () => {
                   },
                 }}
               />
+
+              {/* <Autocomplete
+                name="company_id"
+                inputValue={searchObj.company_id}
+                onInputChange={(event, newValue) => {
+                  setSearchObj({ ...{ company_id: newValue } });
+                }}
+                size="small"
+                options={company_ids}
+                getOptionLabel={(option) => option.company_id}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    variant="outlined"
+                    label="Company Id"
+                    placeholder="Company Id"
+                  />
+                )}
+              /> */}
             </Grid>
             <Grid item sm={2}>
               <TextFieldGroup
@@ -217,6 +266,42 @@ const Orders = () => {
                   },
                 }}
               />
+
+              {/* <Autocomplete
+                name="retailer_name"
+                inputValue={searchObj.retailer_name}
+                onInputChange={(event, newValue) => {
+                  setSearchObj({ ...{ retailer_name: newValue } });
+                }}
+                options={retailer}
+                size="small"
+                getOptionLabel={(option) => option.retailer_name}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    variant="outlined"
+                    label="Retailer Name"
+                    placeholder="Retailer Name"
+                  />
+                )}
+                renderOption={(option, { inputValue }) => {
+                  const matches = match(option.retailer_name, inputValue);
+                  const parts = parse(option.retailer_name, matches);
+
+                  return (
+                    <div>
+                      {parts.map((part, index) => (
+                        <span
+                          key={index}
+                          style={{ fontWeight: part.highlight ? 700 : 400 }}
+                        >
+                          {part.text}
+                        </span>
+                      ))}
+                    </div>
+                  );
+                }}
+              /> */}
             </Grid>
             <Grid item sm={2}>
               <TextFieldGroup
@@ -269,6 +354,7 @@ const Orders = () => {
               size="small"
               color="primary"
               startIcon={<AddIcon />}
+              onClick={handleClickOpen("paper", "new")}
             >
               Add New Retailer
             </Button>
@@ -279,22 +365,33 @@ const Orders = () => {
               color="primary"
               startIcon={<EditIcon />}
               disabled={!selectedValue ? true : false}
-              onClick={() => editRetailer(selectedValue)}
+              onClick={handleClickOpen("body", "Edit")}
             >
               Edit
-            </Button>
-            <Button
-              variant="contained"
-              color="secondary"
-              size="small"
-              startIcon={<DeleteIcon />}
-              disabled={!selectedValue ? true : false}
-            >
-              Delete
             </Button>
           </Grid>
         </Grid>
       </Paper>
+
+      {editFlag === "Edit" ? (
+        <AddRetailer
+          open={open}
+          scroll={scroll}
+          descriptionElementRef={descriptionElementRef}
+          handleClose={handleClose}
+          editFlag={editFlag}
+          selectedData={selectedValue ? selectedValue.row : {}}
+        />
+      ) : editFlag === "new" ? (
+        <AddRetailer
+          open={open}
+          scroll={scroll}
+          descriptionElementRef={descriptionElementRef}
+          handleClose={handleClose}
+        />
+      ) : (
+        ""
+      )}
     </div>
   );
 };
