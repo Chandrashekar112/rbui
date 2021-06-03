@@ -12,7 +12,7 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import parse from "autosuggest-highlight/parse";
 import match from "autosuggest-highlight/match";
 
-import { useForm, Controller } from "react-hook-form";
+import { useForm, FormProvider, Controller } from "react-hook-form";
 
 import services from "../../services";
 
@@ -44,9 +44,14 @@ const Orders = () => {
   const classes = useStyles();
   const methods = useForm();
   const { control, handleSubmit } = methods;
+
   const [retailer, setRetailer] = useState([]);
   const [retailerSearchObj, setretailerSearchObj] = useState({});
   const [selectedValue, setSelectedValue] = React.useState({});
+  const [searchObj, setSearchObj] = useState({});
+  const [companyid, setCompanyId] = useState({});
+  const [retailerName, setRetailerName] = useState({});
+  const [retailerState, setRetailerState] = useState({});
   const [open, setOpen] = React.useState(false);
   const [scroll, setScroll] = React.useState("paper");
   const [editFlag, setEditFlag] = useState("");
@@ -148,9 +153,11 @@ const Orders = () => {
   };
 
   const onSubmit = async (data) => {
-    console.log(data);
+    console.log(data, companyid, retailerName, retailerState);
     setSelectedValue({});
-    setretailerSearchObj(data);
+    let searchValues = { ...companyid, ...retailerName, ...retailerState };
+    console.log(searchValues);
+    setretailerSearchObj(searchValues);
     filterData();
   };
 
@@ -180,11 +187,6 @@ const Orders = () => {
     return filterModel;
   };
 
-  /*edit retailer setting function */
-  const editRetailer = (params) => {
-    console.log(params.row);
-  };
-
   const descriptionElementRef = React.useRef(null);
   useEffect(() => {
     if (open) {
@@ -205,17 +207,74 @@ const Orders = () => {
     setOpen(false);
   };
 
+  const company_ids = [
+    { company_id: "127507" },
+    { company_id: "127916" },
+    { company_id: "128417" },
+    { company_id: "127900" },
+    { company_id: "127518" },
+    { company_id: "127514" },
+    { company_id: "127886" },
+    { company_id: "128405" },
+    { company_id: "128567" },
+    { company_id: "128462" },
+    { company_id: "128729" },
+    { company_id: "127506" },
+    { company_id: "128751" },
+    { company_id: "127501" },
+    { company_id: "128075" },
+    { company_id: "127529" },
+    { company_id: "127502" },
+    { company_id: "128877" },
+    { company_id: "128380" },
+    { company_id: "127481" },
+    { company_id: "128606" },
+    { company_id: "128406" },
+    { company_id: "128443" },
+    { company_id: "127527" },
+    { company_id: "128083" },
+    { company_id: "128149" },
+    { company_id: "128656" },
+    { company_id: "127509" },
+    { company_id: "128442" },
+    { company_id: "128216" },
+    { company_id: "127480" },
+    { company_id: "128761" },
+    { company_id: "127504" },
+    { company_id: "127515" },
+    { company_id: "128156" },
+    { company_id: "128605" },
+    { company_id: "128006" },
+    { company_id: "128375" },
+    { company_id: "128072" },
+    { company_id: "127512" },
+    { company_id: "128007" },
+    { company_id: "127513" },
+    { company_id: "127505" },
+    { company_id: "128037" },
+    { company_id: "128386" },
+    { company_id: "127500" },
+    { company_id: "128108" },
+    { company_id: "127516" },
+    { company_id: "128461" },
+    { company_id: "128747" },
+    { company_id: "128381" },
+    { company_id: "128450" },
+    { company_id: "128374" },
+    { company_id: "127511" },
+    { company_id: "128433" },
+    { company_id: "128413" },
+    { company_id: "128418" },
+    { company_id: "127503" },
+  ];
+
   return (
     <div className={classes.root}>
-      {/* <Paper className={classes.paper} style={{ marginBottom: "10px" }}>
-        <h2>Retailer Setting List </h2>
-      </Paper> */}
-
       <Paper className={classes.paper} style={{ marginBottom: "10px" }}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2}>
             <Grid item sm={2}>
-              <TextFieldGroup
+              {/* <TextFieldGroup
                 name="company_id"
                 control={control}
                 defaultValue=""
@@ -229,29 +288,31 @@ const Orders = () => {
                     message: "Only allowed numbers",
                   },
                 }}
-              />
+              /> */}
 
-              {/* <Autocomplete
+              <Autocomplete
                 name="company_id"
-                inputValue={searchObj.company_id}
-                onInputChange={(event, newValue) => {
-                  setSearchObj({ ...{ company_id: newValue } });
-                }}
                 size="small"
+                value={companyid}
+                onChange={(event, newValue) => {
+                  setCompanyId(newValue);
+                }}
                 options={company_ids}
                 getOptionLabel={(option) => option.company_id}
                 renderInput={(params) => (
                   <TextField
                     {...params}
-                    variant="outlined"
                     label="Company Id"
                     placeholder="Company Id"
+                    className={classes.textField}
+                    margin="dense"
+                    variant="outlined"
                   />
                 )}
-              /> */}
+              />
             </Grid>
             <Grid item sm={2}>
-              <TextFieldGroup
+              {/* <TextFieldGroup
                 name="retailer_name"
                 control={control}
                 defaultValue=""
@@ -265,13 +326,17 @@ const Orders = () => {
                     message: "Only allowed Uppercase and lowercase letters",
                   },
                 }}
-              />
+              /> */}
 
-              {/* <Autocomplete
+              <Autocomplete
                 name="retailer_name"
-                inputValue={searchObj.retailer_name}
-                onInputChange={(event, newValue) => {
-                  setSearchObj({ ...{ retailer_name: newValue } });
+                // inputValue={value.retailer_name}
+                // onInputChange={(event, newValue) => {
+                //   inputGetValue(event, newValue);
+                // }}
+                value={retailerName}
+                onChange={(event, newValue) => {
+                  setRetailerName(newValue);
                 }}
                 options={retailer}
                 size="small"
@@ -279,9 +344,11 @@ const Orders = () => {
                 renderInput={(params) => (
                   <TextField
                     {...params}
-                    variant="outlined"
                     label="Retailer Name"
                     placeholder="Retailer Name"
+                    className={classes.textField}
+                    margin="dense"
+                    variant="outlined"
                   />
                 )}
                 renderOption={(option, { inputValue }) => {
@@ -301,7 +368,7 @@ const Orders = () => {
                     </div>
                   );
                 }}
-              /> */}
+              />
             </Grid>
             <Grid item sm={2}>
               <TextFieldGroup

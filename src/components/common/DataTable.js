@@ -39,7 +39,7 @@ function CustomToolbar() {
     <GridToolbarContainer>
       <GridColumnsToolbarButton />
       <GridFilterToolbarButton />
-      <GridDensitySelector />
+      {/* <GridDensitySelector /> */}
       {/* <GridToolbarExport /> */}
     </GridToolbarContainer>
   );
