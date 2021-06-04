@@ -22,17 +22,15 @@ retailerService.RetailerSetting = async () => {
   }
 };
 
-// retailerService.RetailerSearch = async (id) => {
-//   try {
-//     let res = await axios.get(
-//       process.env.REACT_APP_RESERVEBAR_API + "/retailer/company_id=" + id,
-//       {
-//         headers: headers,
-//       }
-//     );
-//     // console.log(res.data);
-//     return res ? res : [];
-//   } catch (err) {
-//     throw err.response ? err.response.data : err;
-//   }
-// };
+retailerService.AddRetailer = async (data) => {
+  try {
+    let res = axios.post(
+      process.env.REACT_APP_RESERVEBAR_API + "/retailer/addRetailer",
+      data,
+      { headers: headers }
+    );
+    return res ? res.data : [];
+  } catch (err) {
+    throw err.response ? err.response.data : err;
+  }
+};

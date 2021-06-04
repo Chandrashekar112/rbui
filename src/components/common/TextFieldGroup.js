@@ -13,6 +13,7 @@ const TextFieldGroup = ({
   control,
   rules,
   label,
+  disabled,
 }) => {
   return (
     <Controller
@@ -23,6 +24,7 @@ const TextFieldGroup = ({
           onChange={onChange}
           fullWidth
           variant={variant}
+          disabled={disabled}
           margin={margin}
           error={!!error}
           helperText={error ? error.message : null}

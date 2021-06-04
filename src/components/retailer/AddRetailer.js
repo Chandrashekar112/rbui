@@ -12,6 +12,8 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import TextFieldGroup from "../common/TextFieldGroup";
 
+import services from "../../services";
+
 const useStyles = makeStyles((theme) => ({
   textField: {
     marginLeft: theme.spacing(1),
@@ -32,24 +34,64 @@ export default function AddRetailer({
 }) {
   const classes = useStyles();
   const methods = useForm();
-  const { control, handleSubmit } = methods;
-  const [selectObj, setSelectObj] = useState({});
+  const { control, handleSubmit, setValue, reset } = methods;
 
   useEffect(() => {
-    const resetData = async () => {
-      if (selectedData) {
-        setSelectObj(selectedData);
-      } else {
-        setSelectObj({});
-      }
-    };
-    resetData();
+    // const resetData = async () => {};
+
+    // resetData();
+
+    if (selectedData) {
+      setValue("company_id", selectedData.company_id);
+      setValue("retailer_name", selectedData.retailer_name);
+      setValue("retailer_state", selectedData.retailer_state);
+      setValue("shipping_cost_ground", selectedData.shipping_cost_ground);
+      setValue("shipping_cost_2day", selectedData.shipping_cost_2day);
+      setValue("shipping_cost_overnight", selectedData.shipping_cost_overnight);
+      setValue("rb_percent_sales", selectedData.rb_percent_sales);
+      setValue("retailer_percent_sales", selectedData.retailer_percent_sales);
+      setValue("credit_card_fee_percent", selectedData.credit_card_fee_percent);
+      setValue("shipping_fedex", selectedData.shipping_fedex);
+      setValue("shipping_non_fedex", selectedData.shipping_non_fedex);
+      setValue(
+        "retailer_contrib_free_ship",
+        selectedData.retailer_contrib_free_ship
+      );
+      setValue("dw_contrib_free_ship", selectedData.dw_contrib_free_ship);
+      setValue("include_tax", selectedData.include_tax);
+      setValue("include_ccfee", selectedData.include_ccfee);
+
+      // "include_ccfee",
+      // selectedData.include_ccfee
+    } else if (!selectedData) {
+      reset({
+        company_id: "",
+        retailer_name: "",
+        retailer_state: "",
+        shipping_cost_2day: "",
+        shipping_cost_overnight: "",
+        rb_percent_sales: "",
+        retailer_percent_sales: "",
+        credit_card_fee_percent: "",
+        shipping_fedex: "",
+        shipping_non_fedex: "",
+        retailer_contrib_free_ship: "",
+        dw_contrib_free_ship: "",
+        include_tax: "",
+        include_ccfee: "",
+      });
+    }
   }, [selectedData]);
 
-  const Save = (data) => {
+  const Save = async (data) => {
+    await services.retailerService
+      .AddRetailer(data)
+      .then((response) => console.log(response.data.data))
+      .catch((err) => console.log(err));
     console.log(data);
   };
 
+  console.log(selectedData);
   return (
     <div>
       <Dialog
@@ -75,9 +117,10 @@ export default function AddRetailer({
                   <TextFieldGroup
                     name="company_id"
                     control={control}
-                    defaultValue={selectObj.company_id}
+                    defaultValue={""}
                     label="Company Id"
                     className={classes.textField}
+                    disabled={editFlag === "Edit" ? true : false}
                     margin="dense"
                     variant="outlined"
                   />
@@ -86,7 +129,7 @@ export default function AddRetailer({
                   <TextFieldGroup
                     name="retailer_name"
                     control={control}
-                    defaultValue={selectObj.retailer_name}
+                    defaultValue={""}
                     label="Retailer Name"
                     className={classes.textField}
                     margin="dense"
@@ -97,7 +140,7 @@ export default function AddRetailer({
                   <TextFieldGroup
                     name="retailer_state"
                     control={control}
-                    defaultValue={selectObj.retailer_state}
+                    defaultValue={""}
                     label="Retailer State"
                     className={classes.textField}
                     margin="dense"
@@ -108,7 +151,7 @@ export default function AddRetailer({
                   <TextFieldGroup
                     name="shipping_cost_ground"
                     control={control}
-                    defaultValue={selectObj.shipping_cost_ground}
+                    defaultValue={""}
                     label="Shipping Cost Ground"
                     className={classes.textField}
                     margin="dense"
@@ -119,7 +162,7 @@ export default function AddRetailer({
                   <TextFieldGroup
                     name="shipping_cost_2day"
                     control={control}
-                    defaultValue={selectObj.shipping_cost_2day}
+                    defaultValue={""}
                     label="Shipping Cost 2day"
                     className={classes.textField}
                     margin="dense"
@@ -130,7 +173,7 @@ export default function AddRetailer({
                   <TextFieldGroup
                     name="shipping_cost_overnight"
                     control={control}
-                    defaultValue={selectObj.shipping_cost_overnight}
+                    defaultValue={""}
                     label="Shipping Cost Overnight"
                     className={classes.textField}
                     margin="dense"
@@ -141,7 +184,7 @@ export default function AddRetailer({
                   <TextFieldGroup
                     name="rb_percent_sales"
                     control={control}
-                    defaultValue={selectObj.rb_percent_sales}
+                    defaultValue={""}
                     label="Rb Percent Sales"
                     className={classes.textField}
                     margin="dense"
@@ -152,7 +195,7 @@ export default function AddRetailer({
                   <TextFieldGroup
                     name="retailer_percent_sales"
                     control={control}
-                    defaultValue={selectObj.retailer_percent_sales}
+                    defaultValue={""}
                     label="Retailer Percent Sales"
                     className={classes.textField}
                     margin="dense"
@@ -163,7 +206,7 @@ export default function AddRetailer({
                   <TextFieldGroup
                     name="credit_card_fee_percent"
                     control={control}
-                    defaultValue={selectObj.credit_card_fee_percent}
+                    defaultValue={""}
                     label="Credit Card Fee Percent"
                     className={classes.textField}
                     margin="dense"
@@ -174,7 +217,7 @@ export default function AddRetailer({
                   <TextFieldGroup
                     name="shipping_fedex"
                     control={control}
-                    defaultValue={selectObj.shipping_fedex}
+                    defaultValue={""}
                     label="Shipping Fedex"
                     className={classes.textField}
                     margin="dense"
@@ -185,7 +228,7 @@ export default function AddRetailer({
                   <TextFieldGroup
                     name="shipping_non_fedex"
                     control={control}
-                    defaultValue={selectObj.shipping_non_fedex}
+                    defaultValue={""}
                     label="Shipping non fedex"
                     className={classes.textField}
                     margin="dense"
@@ -196,7 +239,7 @@ export default function AddRetailer({
                   <TextFieldGroup
                     name="retailer_contrib_free_ship"
                     control={control}
-                    defaultValue={selectObj.retailer_contrib_free_ship}
+                    defaultValue={""}
                     label="Retailer Contrib Free Ship"
                     className={classes.textField}
                     margin="dense"
@@ -207,7 +250,7 @@ export default function AddRetailer({
                   <TextFieldGroup
                     name="dw_contrib_free_ship"
                     control={control}
-                    defaultValue={selectObj.dw_contrib_free_ship}
+                    defaultValue={""}
                     label="Dw Contrib Free Ship"
                     className={classes.textField}
                     margin="dense"
@@ -218,7 +261,7 @@ export default function AddRetailer({
                   <TextFieldGroup
                     name="include_tax"
                     control={control}
-                    defaultValue={selectObj.include_tax}
+                    defaultValue={""}
                     label="Include Tax"
                     className={classes.textField}
                     margin="dense"
@@ -229,7 +272,7 @@ export default function AddRetailer({
                   <TextFieldGroup
                     name="include_ccfee"
                     control={control}
-                    defaultValue={selectObj.include_ccfee}
+                    defaultValue={""}
                     label="Include Ccfee"
                     className={classes.textField}
                     margin="dense"

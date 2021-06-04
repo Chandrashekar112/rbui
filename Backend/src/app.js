@@ -23,12 +23,10 @@ app.get("/", (req, res) => {
   res.end();
 });
 
-// app.get("/retailer", (req, res) => {
 pool.connect((err) => {
   if (err) throw err;
   console.log("connected database");
 });
-// });
 
 const orderRouter = require("./routers/order");
 const retailerRouter = require("./routers/retailer");
