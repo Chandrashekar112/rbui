@@ -34,3 +34,28 @@ retailerService.AddRetailer = async (data) => {
     throw err.response ? err.response.data : err;
   }
 };
+
+retailerService.RetailerStates = async () => {
+  try {
+    let res = axios.get(
+      process.env.REACT_APP_RESERVEBAR_API + "/retailer/retailer_state",
+      { headers: headers }
+    );
+    return res ? res : [];
+  } catch (err) {
+    throw err.response ? err.response.data : err;
+  }
+};
+
+retailerService.UpdateRetailer = async (id, data) => {
+  try {
+    let res = axios.get(
+      process.env.REACT_APP_RESERVEBAR_API + "/retailer/" + id,
+      { data },
+      { headers: headers }
+    );
+    return res ? res : [];
+  } catch (err) {
+    throw err.response ? err.response.data : err;
+  }
+};

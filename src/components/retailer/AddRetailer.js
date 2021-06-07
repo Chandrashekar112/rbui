@@ -5,12 +5,15 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-
+import TextField from "@material-ui/core/TextField";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 import Grid from "@material-ui/core/Grid";
 import { useForm, Controller } from "react-hook-form";
 import { makeStyles } from "@material-ui/core/styles";
 
 import TextFieldGroup from "../common/TextFieldGroup";
+
+import CheckBox from "../common/CheckBox";
 
 import services from "../../services";
 
@@ -31,16 +34,14 @@ export default function AddRetailer({
   handleClose,
   editFlag,
   selectedData,
+  retailerStateArr,
 }) {
   const classes = useStyles();
   const methods = useForm();
   const { control, handleSubmit, setValue, reset } = methods;
+  const [retailerState, setRetailerState] = useState({});
 
   useEffect(() => {
-    // const resetData = async () => {};
-
-    // resetData();
-
     if (selectedData) {
       setValue("company_id", selectedData.company_id);
       setValue("retailer_name", selectedData.retailer_name);
@@ -58,11 +59,8 @@ export default function AddRetailer({
         selectedData.retailer_contrib_free_ship
       );
       setValue("dw_contrib_free_ship", selectedData.dw_contrib_free_ship);
-      setValue("include_tax", selectedData.include_tax);
+      // setValue("include_tax", selectedData.include_tax);
       setValue("include_ccfee", selectedData.include_ccfee);
-
-      // "include_ccfee",
-      // selectedData.include_ccfee
     } else if (!selectedData) {
       reset({
         company_id: "",
@@ -77,13 +75,13 @@ export default function AddRetailer({
         shipping_non_fedex: "",
         retailer_contrib_free_ship: "",
         dw_contrib_free_ship: "",
-        include_tax: "",
-        include_ccfee: "",
+        // include_tax: "",
+        // include_ccfee: "",
       });
     }
   }, [selectedData]);
 
-  const Save = async (data) => {
+  const save = async (data) => {
     await services.retailerService
       .AddRetailer(data)
       .then((response) => console.log(response.data.data))
@@ -91,7 +89,14 @@ export default function AddRetailer({
     console.log(data);
   };
 
-  console.log(selectedData);
+  const update = async (data) => {
+    let id = data.id;
+    await services.retailerService
+      .UpdateRetailer(id, "")
+      .then((response) => console.log(response.data.data))
+      .catch((err) => console.log(err));
+  };
+
   return (
     <div>
       <Dialog
@@ -136,15 +141,26 @@ export default function AddRetailer({
                     variant="outlined"
                   />
                 </Grid>
-                <Grid item sm={4}>
-                  <TextFieldGroup
+                <Grid item sm={4} spacing={2}>
+                  <Autocomplete
                     name="retailer_state"
-                    control={control}
-                    defaultValue={""}
-                    label="Retailer State"
-                    className={classes.textField}
-                    margin="dense"
-                    variant="outlined"
+                    size="small"
+                    value={retailerState}
+                    onChange={(event, newValue) => {
+                      setRetailerState(newValue);
+                    }}
+                    // options={retailer}
+                    options={retailerStateArr}
+                    getOptionLabel={(option) => option.retailer_state}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Retailer State"
+                        placeholder="Retailer State"
+                        margin="dense"
+                        variant="outlined"
+                      />
+                    )}
                   />
                 </Grid>
                 <Grid item sm={4}>
@@ -257,26 +273,22 @@ export default function AddRetailer({
                     variant="outlined"
                   />
                 </Grid>
-                <Grid item sm={4}>
-                  <TextFieldGroup
+                <Grid item sm={2}>
+                  <CheckBox
+                    label={"Include Tax"}
                     name="include_tax"
                     control={control}
                     defaultValue={""}
-                    label="Include Tax"
-                    className={classes.textField}
-                    margin="dense"
-                    variant="outlined"
+                    // checked={true}
                   />
                 </Grid>
-                <Grid item sm={4}>
-                  <TextFieldGroup
+                <Grid item sm={2}>
+                  <CheckBox
+                    label={"Include Ccfee"}
                     name="include_ccfee"
                     control={control}
                     defaultValue={""}
-                    label="Include Ccfee"
-                    className={classes.textField}
-                    margin="dense"
-                    variant="outlined"
+                    // checked={false}
                   />
                 </Grid>
               </Grid>
@@ -286,9 +298,16 @@ export default function AddRetailer({
             <Button onClick={handleClose} color="primary">
               Cancel
             </Button>
-            <Button onClick={handleSubmit(Save)} color="primary">
-              Save
-            </Button>
+
+            {editFlag === "Edit" ? (
+              <Button onClick={handleSubmit(update)} color="primary">
+                Update
+              </Button>
+            ) : (
+              <Button onClick={handleSubmit(save)} color="primary">
+                Save
+              </Button>
+            )}
           </DialogActions>
         </form>
       </Dialog>

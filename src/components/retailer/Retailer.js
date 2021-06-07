@@ -6,7 +6,6 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import AddIcon from "@material-ui/icons/Add";
 import EditIcon from "@material-ui/icons/Edit";
-import DeleteIcon from "@material-ui/icons/Delete";
 import Radio from "@material-ui/core/Radio";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import parse from "autosuggest-highlight/parse";
@@ -143,7 +142,6 @@ const Orders = () => {
         .then((response) => searchFun(response.data.data))
         .catch((error) => console.log(error));
     };
-    // let searchObj = { companyIds: [], retailerName: [], retailerState: [] };
     masterData();
   }, []);
 
@@ -159,17 +157,32 @@ const Orders = () => {
         return item;
       }
     });
+
     searchObj.retailerName = data.filter((item, i) => {
       if (item.retailer_name) {
         return item;
       }
     });
-    searchObj.retailerState = data.filter((item, i) => {
-      if (item.retailer_state) {
+    searchObj.retailerName.sort((a, b) => {
+      return a.retailer_name.localeCompare(b.retailer_name);
+    });
+
+    let uniquevalues = Array.from(
+      new Set(data.map((a) => a.retailer_state))
+    ).map((id) => {
+      return data.find((a) => a.retailer_state === id);
+    });
+
+    searchObj.retailerState = uniquevalues.filter((item, i) => {
+      if (item.retailer_state && !(item.retailer_state === "-")) {
         return item;
       }
     });
-    console.log(searchObj);
+
+    searchObj.retailerState.sort((a, b) => {
+      return a.retailer_state.localeCompare(b.retailer_state);
+    });
+
     await setSearchObj(searchObj);
   };
 
@@ -392,6 +405,9 @@ const Orders = () => {
           handleClose={handleClose}
           editFlag={editFlag}
           selectedData={selectedValue ? selectedValue.row : {}}
+          retailerStateArr={
+            searchObj && searchObj.retailerState ? searchObj.retailerState : []
+          }
         />
       ) : editFlag === "new" ? (
         <AddRetailer
@@ -399,6 +415,9 @@ const Orders = () => {
           scroll={scroll}
           descriptionElementRef={descriptionElementRef}
           handleClose={handleClose}
+          retailerStateArr={
+            searchObj && searchObj.retailerState ? searchObj.retailerState : []
+          }
         />
       ) : (
         ""
