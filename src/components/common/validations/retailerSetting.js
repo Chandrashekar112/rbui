@@ -15,7 +15,7 @@ const RetailerSettingValidation = {
       message: "Retailer name is required.",
     },
     pattern: {
-      value: /^[A-Za-z]+$/i,
+      value: /^[a-z][a-z\s]*$/,
       message: "Only Uppercase and lowercase letters allowed.",
     },
     minLength: {
