@@ -17,6 +17,8 @@ import CheckBox from "../common/CheckBox";
 
 import services from "../../services";
 
+import RetailerSettingValidation from "../common/validations/retailerSetting";
+
 const useStyles = makeStyles((theme) => ({
   textField: {
     marginLeft: theme.spacing(1),
@@ -40,12 +42,14 @@ export default function AddRetailer({
   const methods = useForm();
   const { control, handleSubmit, setValue, reset } = methods;
   const [retailerState, setRetailerState] = useState({});
+  const [include_tax, setIncludeTax] = useState(false);
+  const [include_ccfee, setIncludeCCfee] = useState(false);
 
   useEffect(() => {
     if (selectedData) {
+      setRetailerState({ retailer_state: selectedData.retailer_state });
       setValue("company_id", selectedData.company_id);
       setValue("retailer_name", selectedData.retailer_name);
-      setValue("retailer_state", selectedData.retailer_state);
       setValue("shipping_cost_ground", selectedData.shipping_cost_ground);
       setValue("shipping_cost_2day", selectedData.shipping_cost_2day);
       setValue("shipping_cost_overnight", selectedData.shipping_cost_overnight);
@@ -59,13 +63,16 @@ export default function AddRetailer({
         selectedData.retailer_contrib_free_ship
       );
       setValue("dw_contrib_free_ship", selectedData.dw_contrib_free_ship);
-      // setValue("include_tax", selectedData.include_tax);
-      setValue("include_ccfee", selectedData.include_ccfee);
+
+      let tax = selectedData.include_tax === 1 ? true : false;
+      let ccfee = selectedData.include_ccfee === 1 ? true : false;
+      setIncludeTax(tax);
+      setIncludeCCfee(ccfee);
     } else if (!selectedData) {
       reset({
         company_id: "",
         retailer_name: "",
-        retailer_state: "",
+        // retailer_state: "",
         shipping_cost_2day: "",
         shipping_cost_overnight: "",
         rb_percent_sales: "",
@@ -75,26 +82,50 @@ export default function AddRetailer({
         shipping_non_fedex: "",
         retailer_contrib_free_ship: "",
         dw_contrib_free_ship: "",
-        // include_tax: "",
-        // include_ccfee: "",
       });
+      setRetailerState({});
+      setIncludeTax(false);
+      setIncludeCCfee(false);
     }
   }, [selectedData]);
 
   const save = async (data) => {
+    console.log(data);
+    let setData = data;
+    setData.retailer_state = retailerState.retailer_state;
+    setData.include_tax = include_tax === true ? 1 : 0;
+    setData.include_ccfee = include_ccfee === true ? 1 : 0;
+
     await services.retailerService
-      .AddRetailer(data)
+      .AddRetailer(setData)
       .then((response) => console.log(response.data.data))
       .catch((err) => console.log(err));
-    console.log(data);
+    console.log(setData);
   };
 
   const update = async (data) => {
-    let id = data.id;
+    let setData = data;
+    let id = setData.company_id;
+    setData.retailer_state = retailerState.retailer_state;
+    setData.include_tax = include_tax === true ? 1 : 0;
+    setData.include_ccfee = include_ccfee === true ? 1 : 0;
+
     await services.retailerService
-      .UpdateRetailer(id, "")
+      .UpdateRetailer(id, setData)
       .then((response) => console.log(response.data.data))
       .catch((err) => console.log(err));
+    console.log(data, setData);
+  };
+
+  // console.log(checkValue);
+
+  const onChange = (e, val) => {
+    const checked = e.target.checked;
+    if (val === "tax") {
+      setIncludeTax(checked);
+    } else if (val === "ccfee") {
+      setIncludeCCfee(checked);
+    }
   };
 
   return (
@@ -128,6 +159,7 @@ export default function AddRetailer({
                     disabled={editFlag === "Edit" ? true : false}
                     margin="dense"
                     variant="outlined"
+                    rules={RetailerSettingValidation.company_id}
                   />
                 </Grid>
                 <Grid item sm={4}>
@@ -139,26 +171,36 @@ export default function AddRetailer({
                     className={classes.textField}
                     margin="dense"
                     variant="outlined"
+                    rules={RetailerSettingValidation.retailer_name}
                   />
                 </Grid>
-                <Grid item sm={4} spacing={2}>
+                <Grid item sm={4}>
                   <Autocomplete
-                    name="retailer_state"
                     size="small"
                     value={retailerState}
                     onChange={(event, newValue) => {
                       setRetailerState(newValue);
                     }}
-                    // options={retailer}
                     options={retailerStateArr}
                     getOptionLabel={(option) => option.retailer_state}
                     renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="Retailer State"
-                        placeholder="Retailer State"
-                        margin="dense"
-                        variant="outlined"
+                      <Controller
+                        render={({ fieldState: { error } }) => (
+                          <TextField
+                            {...params}
+                            name="retailer_state"
+                            label="Retailer State"
+                            placeholder="Retailer State"
+                            margin="dense"
+                            variant="outlined"
+                            error={!!error}
+                            helperText={error ? error.message : null}
+                          />
+                        )}
+                        name="retailer_state"
+                        control={control}
+                        value={retailerState}
+                        // rules={RetailerSettingValidation.retailer_state}
                       />
                     )}
                   />
@@ -172,6 +214,7 @@ export default function AddRetailer({
                     className={classes.textField}
                     margin="dense"
                     variant="outlined"
+                    rules={RetailerSettingValidation.shipping_cost_ground}
                   />
                 </Grid>
                 <Grid item sm={4}>
@@ -183,6 +226,7 @@ export default function AddRetailer({
                     className={classes.textField}
                     margin="dense"
                     variant="outlined"
+                    rules={RetailerSettingValidation.shipping_cost_2day}
                   />
                 </Grid>
                 <Grid item sm={4}>
@@ -194,6 +238,7 @@ export default function AddRetailer({
                     className={classes.textField}
                     margin="dense"
                     variant="outlined"
+                    rules={RetailerSettingValidation.shipping_cost_overnight}
                   />
                 </Grid>
                 <Grid item sm={4}>
@@ -205,6 +250,7 @@ export default function AddRetailer({
                     className={classes.textField}
                     margin="dense"
                     variant="outlined"
+                    rules={RetailerSettingValidation.rb_percent_sales}
                   />
                 </Grid>
                 <Grid item sm={4}>
@@ -216,6 +262,7 @@ export default function AddRetailer({
                     className={classes.textField}
                     margin="dense"
                     variant="outlined"
+                    rules={RetailerSettingValidation.retailer_percent_sales}
                   />
                 </Grid>
                 <Grid item sm={4}>
@@ -227,6 +274,7 @@ export default function AddRetailer({
                     className={classes.textField}
                     margin="dense"
                     variant="outlined"
+                    rules={RetailerSettingValidation.credit_card_fee_percent}
                   />
                 </Grid>
                 <Grid item sm={4}>
@@ -238,6 +286,7 @@ export default function AddRetailer({
                     className={classes.textField}
                     margin="dense"
                     variant="outlined"
+                    rules={RetailerSettingValidation.shipping_fedex}
                   />
                 </Grid>
                 <Grid item sm={4}>
@@ -249,6 +298,7 @@ export default function AddRetailer({
                     className={classes.textField}
                     margin="dense"
                     variant="outlined"
+                    rules={RetailerSettingValidation.shipping_non_fedex}
                   />
                 </Grid>
                 <Grid item sm={4}>
@@ -260,6 +310,7 @@ export default function AddRetailer({
                     className={classes.textField}
                     margin="dense"
                     variant="outlined"
+                    rules={RetailerSettingValidation.retailer_contrib_free_ship}
                   />
                 </Grid>
                 <Grid item sm={4}>
@@ -271,6 +322,7 @@ export default function AddRetailer({
                     className={classes.textField}
                     margin="dense"
                     variant="outlined"
+                    rules={RetailerSettingValidation.dw_contrib_free_ship}
                   />
                 </Grid>
                 <Grid item sm={2}>
@@ -279,7 +331,8 @@ export default function AddRetailer({
                     name="include_tax"
                     control={control}
                     defaultValue={""}
-                    // checked={true}
+                    checked={include_tax}
+                    onChange={(e) => onChange(e, "tax")}
                   />
                 </Grid>
                 <Grid item sm={2}>
@@ -287,8 +340,8 @@ export default function AddRetailer({
                     label={"Include Ccfee"}
                     name="include_ccfee"
                     control={control}
-                    defaultValue={""}
-                    // checked={false}
+                    checked={include_ccfee}
+                    onChange={(e) => onChange(e, "ccfee")}
                   />
                 </Grid>
               </Grid>

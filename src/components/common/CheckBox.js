@@ -15,16 +15,16 @@ const CheckBox = ({
   label,
   disabled,
   checked,
+  onChange,
 }) => {
   return (
     <Controller
-      render={({ field: { onChange, value }, fieldState: { error } }) => (
+      render={({ fieldState: { error } }) => (
         <FormControlLabel
           control={
             <Checkbox
               checked={checked}
-              value={value}
-              onChange={onChange}
+              onChange={(e) => onChange(e)}
               color="primary"
               disabled={disabled}
             />

@@ -273,7 +273,7 @@ const Orders = () => {
                 )}
               />
             </Grid>
-            <Grid item sm={2}>
+            <Grid item sm={3}>
               <Autocomplete
                 name="retailer_name"
                 value={retailerName}
@@ -359,7 +359,7 @@ const Orders = () => {
       </Paper>
 
       <Paper className={classes.paper}>
-        <div style={{ height: 500, width: "100%" }}>
+        <div style={{ height: 515, width: "100%" }}>
           <DataTable
             columns={columns}
             rows={userData()}
@@ -388,7 +388,7 @@ const Orders = () => {
               size="small"
               color="primary"
               startIcon={<EditIcon />}
-              disabled={!selectedValue ? true : false}
+              disabled={!(selectedValue && selectedValue.id) ? true : false}
               onClick={handleClickOpen("body", "Edit")}
             >
               Edit

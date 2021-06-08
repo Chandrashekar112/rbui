@@ -14,6 +14,7 @@ const TextFieldGroup = ({
   rules,
   label,
   disabled,
+  maxLength,
 }) => {
   return (
     <Controller

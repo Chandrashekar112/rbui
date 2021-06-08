@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/styles";
 
 import {
@@ -55,12 +55,15 @@ const DataTable = ({ columns, rows, filterModel }) => {
         Pagination: CustomPagination,
       }}
       pageSize={10}
-      rowsPerPageOptions={[10, 20, 50, 100]}
+      // rowsPerPageOptions={[10, 20, 50, 100]}
       pagination
       // checkboxSelection
+      rowHeight={35}
       filterModel={filterModel}
       disableColumnFilter
       disableColumnMenu
+      // autoPageSize={true}
+      loading={rows.length > 0 ? false : true}
     />
   );
 };

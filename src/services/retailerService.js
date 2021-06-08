@@ -48,13 +48,14 @@ retailerService.RetailerStates = async () => {
 };
 
 retailerService.UpdateRetailer = async (id, data) => {
+  console.log(id);
   try {
-    let res = axios.get(
-      process.env.REACT_APP_RESERVEBAR_API + "/retailer/" + id,
-      { data },
+    let res = axios.put(
+      process.env.REACT_APP_RESERVEBAR_API + `/retailer/${id}`,
+      data,
       { headers: headers }
     );
-    return res ? res : [];
+    return res ? res.data : [];
   } catch (err) {
     throw err.response ? err.response.data : err;
   }
