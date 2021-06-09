@@ -1,4 +1,4 @@
-const pool = require("../modules/pool");
+const pool = require("./config");
 
 const getRetailer = async (req, res) => {
   const returnMessage = {
