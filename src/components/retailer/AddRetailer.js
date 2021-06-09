@@ -106,6 +106,10 @@ export default function AddRetailer({
           text: response.data.message,
           icon: "success",
           confirmButtonText: "Ok",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            handleClose();
+          }
         });
       })
       .catch((err) => {
