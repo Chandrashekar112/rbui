@@ -147,7 +147,7 @@ export default function AddRetailer({
         });
       })
       .catch((err) => {
-        if (err.response.status === 400) {
+        if (err.response && err.response.status === 400) {
           Swal.fire({
             title: "Error!",
             text: err.response.data.message,
@@ -238,7 +238,7 @@ export default function AddRetailer({
                         )}
                         name="retailer_state"
                         control={control}
-                        rules={RetailerSettingValidation.retailer_state}
+                        // rules={RetailerSettingValidation.retailer_state}
                       />
                     )}
                   />
