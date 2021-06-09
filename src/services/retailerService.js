@@ -29,7 +29,8 @@ retailerService.AddRetailer = async (data) => {
       data,
       { headers: headers }
     );
-    return res ? res.data : [];
+
+    return res ? res : [];
   } catch (err) {
     throw err.response ? err.response.data : err;
   }
@@ -55,7 +56,7 @@ retailerService.UpdateRetailer = async (id, data) => {
       data,
       { headers: headers }
     );
-    return res ? res.data : [];
+    return res ? res : [];
   } catch (err) {
     throw err.response ? err.response.data : err;
   }

@@ -389,7 +389,7 @@ const Orders = () => {
               color="primary"
               startIcon={<EditIcon />}
               disabled={!(selectedValue && selectedValue.id) ? true : false}
-              onClick={handleClickOpen("body", "Edit")}
+              onClick={handleClickOpen("paper", "Edit")}
             >
               Edit
             </Button>

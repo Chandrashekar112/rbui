@@ -10,6 +10,7 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import Grid from "@material-ui/core/Grid";
 import { useForm, Controller } from "react-hook-form";
 import { makeStyles } from "@material-ui/core/styles";
+import Swal from "sweetalert2";
 
 import TextFieldGroup from "../common/TextFieldGroup";
 
@@ -40,7 +41,7 @@ export default function AddRetailer({
 }) {
   const classes = useStyles();
   const methods = useForm();
-  const { control, handleSubmit, setValue, reset } = methods;
+  const { errors, control, handleSubmit, setValue, reset } = methods;
   const [retailerState, setRetailerState] = useState({});
   const [include_tax, setIncludeTax] = useState(false);
   const [include_ccfee, setIncludeCCfee] = useState(false);
@@ -73,6 +74,7 @@ export default function AddRetailer({
         company_id: "",
         retailer_name: "",
         // retailer_state: "",
+        shipping_cost_ground: "",
         shipping_cost_2day: "",
         shipping_cost_overnight: "",
         rb_percent_sales: "",
@@ -98,8 +100,24 @@ export default function AddRetailer({
 
     await services.retailerService
       .AddRetailer(setData)
-      .then((response) => console.log(response.data.data))
-      .catch((err) => console.log(err));
+      .then((response) => {
+        Swal.fire({
+          title: "Success!",
+          text: response.data.message,
+          icon: "success",
+          confirmButtonText: "Ok",
+        });
+      })
+      .catch((err) => {
+        if (err.response && err.response.status === 400) {
+          Swal.fire({
+            title: "Error!",
+            text: err.response.data.message,
+            icon: "error",
+            confirmButtonText: "Ok",
+          });
+        }
+      });
     console.log(setData);
   };
 
@@ -112,12 +130,29 @@ export default function AddRetailer({
 
     await services.retailerService
       .UpdateRetailer(id, setData)
-      .then((response) => console.log(response.data.data))
-      .catch((err) => console.log(err));
-    console.log(data, setData);
+      .then((response) => {
+        Swal.fire({
+          title: "Success!",
+          text: response.data.message,
+          icon: "success",
+          confirmButtonText: "Ok",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            handleClose();
+          }
+        });
+      })
+      .catch((err) => {
+        if (err.response.status === 400) {
+          Swal.fire({
+            title: "Error!",
+            text: err.response.data.message,
+            icon: "error",
+            confirmButtonText: "Ok",
+          });
+        }
+      });
   };
-
-  // console.log(checkValue);
 
   const onChange = (e, val) => {
     const checked = e.target.checked;
@@ -199,8 +234,7 @@ export default function AddRetailer({
                         )}
                         name="retailer_state"
                         control={control}
-                        value={retailerState}
-                        // rules={RetailerSettingValidation.retailer_state}
+                        rules={RetailerSettingValidation.retailer_state}
                       />
                     )}
                   />
