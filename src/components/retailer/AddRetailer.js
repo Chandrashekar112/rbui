@@ -41,7 +41,7 @@ export default function AddRetailer({
 }) {
   const classes = useStyles();
   const methods = useForm();
-  const { errors, control, handleSubmit, setValue, reset } = methods;
+  const { register, control, handleSubmit, setValue, reset } = methods;
   const [retailerState, setRetailerState] = useState({});
   const [include_tax, setIncludeTax] = useState(false);
   const [include_ccfee, setIncludeCCfee] = useState(false);
@@ -227,7 +227,6 @@ export default function AddRetailer({
                         render={({ fieldState: { error } }) => (
                           <TextField
                             {...params}
-                            name="retailer_state"
                             label="Retailer State"
                             placeholder="Retailer State"
                             margin="dense"
