@@ -55,7 +55,7 @@ const DataTable = ({ columns, rows, filterModel }) => {
         Pagination: CustomPagination,
       }}
       pageSize={10}
-      // rowsPerPageOptions={[10, 20, 50, 100]}
+      rowsPerPageOptions={[10, 20, 50, 100]}
       pagination
       // checkboxSelection
       rowHeight={35}

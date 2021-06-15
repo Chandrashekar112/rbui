@@ -16,6 +16,7 @@ import { useForm, FormProvider, Controller } from "react-hook-form";
 import services from "../../services";
 
 import DataTable from "../common/DataTable";
+import TableData from "./TableData";
 
 import TextFieldGroup from "../common/TextFieldGroup";
 
@@ -56,6 +57,7 @@ const Orders = () => {
   const [editFlag, setEditFlag] = useState("");
 
   const handleChange = (props) => {
+    console.log(props);
     setSelectedValue(props);
   };
 
@@ -198,28 +200,39 @@ const Orders = () => {
     filterData();
   };
 
+  const dt = React.useRef(null);
+
   const filterData = () => {
     const filterModel = {};
-    filterModel.items = [];
+    // filterModel.items = [];
+    // if (retailerSearchObj.company_id) {
+    //   filterModel.items[0] = {
+    //     columnField: "company_id",
+    //     operatorValue: "equals",
+    //     value: retailerSearchObj.company_id,
+    //   };
+    // } else if (retailerSearchObj.retailer_name) {
+    //   filterModel.items[0] = {
+    //     columnField: "retailer_name",
+    //     operatorValue: "contains",
+    //     value: retailerSearchObj.retailer_name,
+    //   };
+    // } else if (retailerSearchObj.retailer_state) {
+    //   filterModel.items[0] = {
+    //     columnField: "retailer_state",
+    //     operatorValue: "contains",
+    //     value: retailerSearchObj.retailer_state,
+    //   };
+    // }
+
     if (retailerSearchObj.company_id) {
-      filterModel.items[0] = {
-        columnField: "company_id",
-        operatorValue: "equals",
-        value: retailerSearchObj.company_id,
-      };
+      filterModel.company_id = { value: retailerSearchObj.company_id };
     } else if (retailerSearchObj.retailer_name) {
-      filterModel.items[0] = {
-        columnField: "retailer_name",
-        operatorValue: "contains",
-        value: retailerSearchObj.retailer_name,
-      };
+      filterModel.retailer_name = { value: retailerSearchObj.retailer_name };
     } else if (retailerSearchObj.retailer_state) {
-      filterModel.items[0] = {
-        columnField: "retailer_state",
-        operatorValue: "contains",
-        value: retailerSearchObj.retailer_state,
-      };
+      filterModel.retailer_state = { value: retailerSearchObj.retailer_state };
     }
+
     return filterModel;
   };
 
@@ -241,6 +254,16 @@ const Orders = () => {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const modifyColums = (rowData, col) => {
+    // console.log(rowData, col);
+    switch (col.field) {
+      case "":
+        return actionButton(rowData);
+      default:
+        return rowData[col.field];
+    }
   };
 
   return (
@@ -359,13 +382,20 @@ const Orders = () => {
       </Paper>
 
       <Paper className={classes.paper}>
-        <div style={{ height: 515, width: "100%" }}>
-          <DataTable
+        {/* <div style={{ height: 515, width: "100%" }}> */}
+        {/* <DataTable
             columns={columns}
             rows={userData()}
             filterModel={filterData()}
-          />
-        </div>
+          /> */}
+        <TableData
+          columns={columns}
+          rows={userData()}
+          filterModel={filterData()}
+          modifyColums={(rowData, col) => modifyColums(rowData, col)}
+          dt={dt}
+        />
+        {/* </div> */}
       </Paper>
 
       <Paper className={classes.paper} style={{ marginTop: "10px" }}>
@@ -404,7 +434,8 @@ const Orders = () => {
           descriptionElementRef={descriptionElementRef}
           handleClose={handleClose}
           editFlag={editFlag}
-          selectedData={selectedValue ? selectedValue.row : {}}
+          // selectedData={selectedValue ? selectedValue.row : {}}
+          selectedData={selectedValue}
           retailerStateArr={
             searchObj && searchObj.retailerState ? searchObj.retailerState : []
           }

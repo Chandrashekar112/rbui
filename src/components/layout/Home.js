@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import clsx from "clsx";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
@@ -18,6 +18,8 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 
 import Routes from "../routes/Routes";
+
+import { Mastercontext } from "../useContext/MasterContext";
 
 const drawerWidth = 240;
 
@@ -81,14 +83,17 @@ const useStyles = makeStyles((theme) => ({
 const Home = () => {
   const classes = useStyles();
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const { masterData, setMasterData } = useContext(Mastercontext);
 
   const handleDrawerOpen = () => {
     setOpen(true);
+    setMasterData({ ...masterData, setOpen: true });
   };
 
   const handleDrawerClose = () => {
     setOpen(false);
+    setMasterData({ ...masterData, setOpen: false });
   };
 
   const listItems = () => {
