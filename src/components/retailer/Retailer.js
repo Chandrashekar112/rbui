@@ -76,65 +76,114 @@ const Orders = () => {
     );
   };
 
+  const header = (head) => {
+    return (
+      <span className="p-column-title" style={{ width: "60%", float: "left" }}>
+        <div>
+          <span className="p-column-title token-anchor">{head} </span>
+        </div>
+      </span>
+    );
+  };
+
   const columns = [
     {
       field: "",
-      headerName: "",
-      renderCell: actionButton,
-      width: 70,
+      header: "",
+      sortable: false,
+      headerStyle: { width: "80px" },
     },
-    { field: "company_id", headerName: "Company Id", width: 160 },
+    {
+      field: "company_id",
+      header: header("Company Id"),
+      sortable: true,
+      headerStyle: { width: "100px" },
+    },
     {
       field: "retailer_name",
-      headerName: "Retailer Name",
-      width: 160,
+      header: header("Retailer Name"),
+      sortable: true,
+      headerStyle: { width: "180px" },
     },
-    { field: "retailer_state", headerName: "Retailer State", width: 160 },
+    {
+      field: "retailer_state",
+      header: header("Retailer State"),
+      sortable: true,
+      headerStyle: { width: "150px" },
+    },
 
     {
       field: "shipping_cost_ground",
-      headerName: "Shipping Cost Ground ",
-      width: 160,
+      header: header("Shipping Cost Ground "),
+      sortable: true,
+      headerStyle: { width: "150px" },
     },
     {
       field: "shipping_cost_2day",
-      headerName: "Shipping Cost 2 day",
-      width: 160,
+      header: header("Shipping Cost 2 day"),
+      sortable: true,
+      headerStyle: { width: "150px" },
     },
     {
       field: "shipping_cost_overnight",
-      headerName: "Shipping Cost Overnight",
-      width: 160,
+      header: header("Shipping Cost Overnight"),
+      sortable: true,
+      headerStyle: { width: "150px" },
     },
-    { field: "rb_percent_sales", headerName: "RB Percent Sales", width: 160 },
+    {
+      field: "rb_percent_sales",
+      header: header("RB Percent Sales"),
+      sortable: true,
+      headerStyle: { width: "150px" },
+    },
     {
       field: "retailer_percent_sales",
-      headerName: "Retailer  Percent Sales",
-      width: 160,
+      header: header("Retailer  Percent Sales"),
+      sortable: true,
+      headerStyle: { width: "150px" },
     },
     {
       field: "credit_card_fee_percent",
-      headerName: "credit card Fee percent",
-      width: 160,
+      header: header("credit card Fee percent"),
+      sortable: true,
+      headerStyle: { width: "150px" },
     },
-    { field: "shipping_fedex", headerName: "shipping Fedex", width: 160 },
+    {
+      field: "shipping_fedex",
+      header: header("shipping Fedex"),
+      sortable: true,
+      headerStyle: { width: "150px" },
+    },
     {
       field: "shipping_non_fedex",
-      headerName: "Shipping non Fedex",
-      width: 160,
+      header: header("Shipping non Fedex"),
+      sortable: true,
+      headerStyle: { width: "150px" },
     },
     {
       field: "retailer_contrib_free_ship",
-      headerName: "Retailer Contrib Free Ship",
-      width: 160,
+      header: header("Retailer Contrib Free Ship"),
+      sortable: true,
+      headerStyle: { width: "150px" },
     },
     {
       field: "dw_contrib_free_ship",
-      headerName: "Dw Contrib Free Ship",
-      width: 160,
+      header: header("Dw Contrib Free Ship"),
+      sortable: true,
+      headerStyle: { width: "150px" },
     },
-    { field: "include_tax", headerName: "Include Tax", width: 160 },
-    { field: "include_ccfee", headerName: "Include ccfee", width: 160 },
+    {
+      field: "include_tax",
+      header: header("Include Tax"),
+      sortable: true,
+      headerStyle: { width: "150px" },
+    },
+    {
+      field: "include_ccfee",
+      header: header("Include ccfee"),
+      sortable: true,
+      headerStyle: { width: "150px" },
+    },
   ];
 
   useEffect(() => {
@@ -195,44 +244,33 @@ const Orders = () => {
 
   const onSubmit = async (data) => {
     setSelectedValue({});
-    let searchValues = { ...companyid, ...retailerName, ...retailerState };
+    let searchValues = {};
+    if (companyid && companyid.company_id) {
+      searchValues.company_id = companyid;
+    } else if (retailerName && retailerName.retailer_name) {
+      searchValues.retailer_name = retailerName;
+    } else if (retailerState && retailerState.retailer_state) {
+      searchValues.retailer_state = retailerState;
+    }
     setretailerSearchObj(searchValues);
     filterData();
   };
 
-  const dt = React.useRef(null);
-
   const filterData = () => {
     const filterModel = {};
-    // filterModel.items = [];
-    // if (retailerSearchObj.company_id) {
-    //   filterModel.items[0] = {
-    //     columnField: "company_id",
-    //     operatorValue: "equals",
-    //     value: retailerSearchObj.company_id,
-    //   };
-    // } else if (retailerSearchObj.retailer_name) {
-    //   filterModel.items[0] = {
-    //     columnField: "retailer_name",
-    //     operatorValue: "contains",
-    //     value: retailerSearchObj.retailer_name,
-    //   };
-    // } else if (retailerSearchObj.retailer_state) {
-    //   filterModel.items[0] = {
-    //     columnField: "retailer_state",
-    //     operatorValue: "contains",
-    //     value: retailerSearchObj.retailer_state,
-    //   };
-    // }
-
-    if (retailerSearchObj.company_id) {
-      filterModel.company_id = { value: retailerSearchObj.company_id };
-    } else if (retailerSearchObj.retailer_name) {
-      filterModel.retailer_name = { value: retailerSearchObj.retailer_name };
-    } else if (retailerSearchObj.retailer_state) {
-      filterModel.retailer_state = { value: retailerSearchObj.retailer_state };
+    let obj = {
+      ...retailerSearchObj.company_id,
+      ...retailerSearchObj.retailer_name,
+      ...retailerSearchObj.retailer_state,
+    };
+    console.log(retailerSearchObj);
+    if (retailerSearchObj && retailerSearchObj.company_id) {
+      filterModel.company_id = { value: obj.company_id };
+    } else if (retailerSearchObj && retailerSearchObj.retailer_name) {
+      filterModel.retailer_name = { value: obj.retailer_name };
+    } else if (retailerSearchObj && retailerSearchObj.retailer_state) {
+      filterModel.retailer_state = { value: obj.retailer_state };
     }
-
     return filterModel;
   };
 
@@ -257,12 +295,11 @@ const Orders = () => {
   };
 
   const modifyColums = (rowData, col) => {
-    // console.log(rowData, col);
     switch (col.field) {
       case "":
         return actionButton(rowData);
       default:
-        return rowData[col.field];
+        return <div className="token-anchor">{rowData[col.field]}</div>;
     }
   };
 
@@ -279,7 +316,6 @@ const Orders = () => {
                 onChange={(event, newValue) => {
                   setCompanyId(newValue);
                 }}
-                // options={retailer}
                 options={
                   searchObj && searchObj.companyIds ? searchObj.companyIds : []
                 }
@@ -303,7 +339,6 @@ const Orders = () => {
                 onChange={(event, newValue) => {
                   setRetailerName(newValue);
                 }}
-                // options={retailer}
                 options={
                   searchObj && searchObj.retailerName
                     ? searchObj.retailerName
@@ -382,20 +417,12 @@ const Orders = () => {
       </Paper>
 
       <Paper className={classes.paper}>
-        {/* <div style={{ height: 515, width: "100%" }}> */}
-        {/* <DataTable
-            columns={columns}
-            rows={userData()}
-            filterModel={filterData()}
-          /> */}
         <TableData
           columns={columns}
           rows={userData()}
           filterModel={filterData()}
           modifyColums={(rowData, col) => modifyColums(rowData, col)}
-          dt={dt}
         />
-        {/* </div> */}
       </Paper>
 
       <Paper className={classes.paper} style={{ marginTop: "10px" }}>

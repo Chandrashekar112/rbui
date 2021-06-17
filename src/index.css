@@ -66,13 +66,27 @@ code {
   font-size: 14px;
 }
 
-.p-datatable .p-sortable-column .p-column-title,
+/* .p-datatable .p-sortable-column .p-column-title,
 .p-datatable .p-sortable-column .p-sortable-column-icon,
 .p-datatable .p-sortable-column .p-sortable-column-badge {
   vertical-align: middle;
   font-size: 15px !important;
   font-weight: 500;
+} */
+
+/*text adjestment columns */
+.token-anchor {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
+
+.token-anchor[href] {
+  color: #1a6dfc;
+}
+/* close columns adjestment css*/
 
 @media screen and (max-width: 960px) {
   .datatable-filter-demo
