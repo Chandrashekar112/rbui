@@ -16,6 +16,9 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
+import AccountCircle from "@material-ui/icons/AccountCircle";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
 
 import Routes from "../routes/Routes";
 
@@ -78,6 +81,11 @@ const useStyles = makeStyles((theme) => ({
     }),
     marginLeft: 0,
   },
+  NavItem: {
+    width: "100%",
+    maxWidth: 360,
+    backgroundColor: theme.palette.background.paper,
+  },
 }));
 
 const Home = () => {
@@ -99,7 +107,7 @@ const Home = () => {
   const listItems = () => {
     const list = [
       { menuName: "Home", pathName: "/" },
-      { menuName: "Orders", pathName: "/orders" },
+      // { menuName: "Orders", pathName: "/orders" },
       { menuName: "Retailer Setting", pathName: "/retailer" },
     ];
 
@@ -112,6 +120,19 @@ const Home = () => {
       </Link>
     ));
   };
+
+  /* Profile list */
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const openUser = Boolean(anchorEl);
+
+  const ProfilehandleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const ProfilehandleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -134,6 +155,36 @@ const Home = () => {
           <Typography variant="h6" noWrap>
             ReserveBar–Retailer Setting
           </Typography>
+          <div style={{ position: "absolute", right: "15px" }}>
+            <IconButton
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={ProfilehandleMenu}
+              color="inherit"
+              style={{ float: "right" }}
+            >
+              <AccountCircle />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              open={openUser}
+              onClose={ProfilehandleClose}
+            >
+              <MenuItem onClick={ProfilehandleClose}>Profile</MenuItem>
+              <MenuItem onClick={ProfilehandleClose}>My account</MenuItem>
+            </Menu>
+          </div>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -155,7 +206,13 @@ const Home = () => {
           </IconButton>
         </div>
         <Divider />
-        <List>{listItems()}</List>
+        <List
+          component="nav"
+          aria-labelledby="nested-list-subheader"
+          className={classes.NavItem}
+        >
+          {listItems()}
+        </List>
       </Drawer>
       <main
         className={clsx(classes.content, {

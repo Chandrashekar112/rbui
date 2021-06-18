@@ -28,7 +28,7 @@
   "scripts": {
     "start": "react-scripts start",
     "serverStart": "cd Backend && npm start",
-    "dev": "concurrently \"npm run start\" \"npm run serverStart\"",
+    "appStart": "concurrently \"npm run start\" \"npm run serverStart\"",
     "dev-peer": "cross-env GENERATE_PEER_PORT='true' ENV='production' npm run serverStart",
     "build": "react-scripts build",
     "test": "react-scripts test",

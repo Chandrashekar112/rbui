@@ -10,9 +10,6 @@ import Retailer from "../retailer/Retailer";
 function Routes() {
   return (
     <Switch>
-      {/* <Route exact path="/" component={Sigin} />
-      <Route exact path="/signup" component={Signup} /> */}
-      {/* <Route exact path="/home" component={Home} /> */}
       <Route exact path="/users" component={UserList} />
       <Route exact path="/orders" component={Orders} />
       <Route exact path="/retailer" component={Retailer} />
