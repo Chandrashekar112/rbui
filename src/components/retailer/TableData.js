@@ -21,6 +21,8 @@ const TableData = ({ columns, rows, filterModel, modifyColums }) => {
       />
     );
   });
+
+  console.log(masterData);
   return (
     <div>
       <div

@@ -24,7 +24,7 @@ retailerService.RetailerSetting = async () => {
 
 retailerService.AddRetailer = async (data) => {
   try {
-    let res = axios.post(
+    let res = await axios.post(
       process.env.REACT_APP_RESERVEBAR_API + "/retailer/addRetailer",
       data,
       { headers: headers }
@@ -38,7 +38,7 @@ retailerService.AddRetailer = async (data) => {
 
 retailerService.RetailerStates = async () => {
   try {
-    let res = axios.get(
+    let res = await axios.get(
       process.env.REACT_APP_RESERVEBAR_API + "/retailer/retailer_state",
       { headers: headers }
     );
@@ -51,7 +51,7 @@ retailerService.RetailerStates = async () => {
 retailerService.UpdateRetailer = async (id, data) => {
   console.log(id);
   try {
-    let res = axios.put(
+    let res = await axios.put(
       process.env.REACT_APP_RESERVEBAR_API + `/retailer/${id}`,
       data,
       { headers: headers }

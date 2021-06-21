@@ -86,6 +86,9 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
   },
+  nested: {
+    paddingLeft: theme.spacing(4),
+  },
 }));
 
 const Home = () => {
@@ -112,12 +115,12 @@ const Home = () => {
     ];
 
     return list.map((item, index) => (
-      <Link to={`${item.pathName}`}>
-        <ListItem button key={index}>
+      <ListItem button key={index}>
+        <Link to={`${item.pathName}`}>
           <ListItemIcon>{item.menuIcon}</ListItemIcon>
           <ListItemText primary={item.menuName} />
-        </ListItem>
-      </Link>
+        </Link>
+      </ListItem>
     ));
   };
 
@@ -183,6 +186,7 @@ const Home = () => {
             >
               <MenuItem onClick={ProfilehandleClose}>Profile</MenuItem>
               <MenuItem onClick={ProfilehandleClose}>My account</MenuItem>
+              <MenuItem onClick={ProfilehandleClose}>Logout</MenuItem>
             </Menu>
           </div>
         </Toolbar>

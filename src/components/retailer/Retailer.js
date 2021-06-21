@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
@@ -16,11 +16,14 @@ import { useForm, FormProvider, Controller } from "react-hook-form";
 import services from "../../services";
 
 import DataTable from "../common/DataTable";
+
 import TableData from "./TableData";
 
 import TextFieldGroup from "../common/TextFieldGroup";
 
 import AddRetailer from "./AddRetailer";
+
+import { Mastercontext } from "../useContext/MasterContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -55,6 +58,7 @@ const Orders = () => {
   const [open, setOpen] = React.useState(false);
   const [scroll, setScroll] = React.useState("paper");
   const [editFlag, setEditFlag] = useState("");
+  const { masterData, setMasterData } = useContext(Mastercontext);
 
   const handleChange = (props) => {
     console.log(props);
@@ -187,14 +191,16 @@ const Orders = () => {
   ];
 
   useEffect(() => {
-    let masterData = async () => {
+    let MasterData = async () => {
       await services.retailerService
         .RetailerSetting()
         .then((response) => searchFun(response.data.data))
         .catch((error) => console.log(error));
+
+      setMasterData({ ...masterData, updateFlag: false });
     };
-    masterData();
-  }, []);
+    MasterData();
+  }, [masterData.updateFlag]);
 
   const searchFun = async (data) => {
     setRetailer(data);
@@ -263,7 +269,6 @@ const Orders = () => {
       ...retailerSearchObj.retailer_name,
       ...retailerSearchObj.retailer_state,
     };
-    console.log(retailerSearchObj);
     if (retailerSearchObj && retailerSearchObj.company_id) {
       filterModel.company_id = { value: obj.company_id };
     } else if (retailerSearchObj && retailerSearchObj.retailer_name) {
