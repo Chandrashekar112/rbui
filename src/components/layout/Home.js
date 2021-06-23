@@ -112,6 +112,7 @@ const Home = () => {
       { menuName: "Home", pathName: "/" },
       // { menuName: "Orders", pathName: "/orders" },
       { menuName: "Retailer Setting", pathName: "/retailer" },
+      { menuName: "Brand Suppliers", pathName: "/supplier" },
     ];
 
     return list.map((item, index) => (

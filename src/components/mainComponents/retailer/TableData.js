@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useContext } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 
-import { Mastercontext } from "../useContext/MasterContext";
+import { Mastercontext } from "../../useContext/MasterContext";
 
 const TableData = ({ columns, rows, filterModel, modifyColums }) => {
   const { masterData, setMasterData } = useContext(Mastercontext);

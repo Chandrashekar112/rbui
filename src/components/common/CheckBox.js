@@ -27,11 +27,13 @@ const CheckBox = ({
               onChange={(e) => onChange(e)}
               color="primary"
               disabled={disabled}
+             
             />
           }
           label={label}
           error={!!error}
           helperText={error ? error.message : null}
+          style={{marginLeft:"9px",marginTop:"7px"}}
         />
       )}
       id={id}

@@ -12,15 +12,15 @@ import { useForm, Controller } from "react-hook-form";
 import { makeStyles } from "@material-ui/core/styles";
 import Swal from "sweetalert2";
 
-import TextFieldGroup from "../common/TextFieldGroup";
+import TextFieldGroup from "../../common/TextFieldGroup";
 
-import CheckBox from "../common/CheckBox";
+import CheckBox from "../../common/CheckBox";
 
-import services from "../../services";
+import services from "../../../services";
 
-import RetailerSettingValidation from "../common/validations/retailerSetting";
+import RetailerSettingValidation from "../../common/validations/retailerSetting";
 
-import { Mastercontext } from "../useContext/MasterContext";
+import { Mastercontext } from "../../useContext/MasterContext";
 
 const useStyles = makeStyles((theme) => ({
   textField: {
@@ -161,7 +161,7 @@ export default function AddRetailer({
           });
         }
       });
-    console.log(masterData);
+   
   };
 
   const onChange = (e, val) => {

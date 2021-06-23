@@ -1,71 +1,59 @@
-import React, { useState } from "react";
-import { makeStyles } from "@material-ui/styles";
+import React, { useState, useEffect, useRef, useContext } from "react";
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
 
-import {
-  DataGrid,
-  GridToolbarContainer,
-  GridColumnsToolbarButton,
-  GridFilterToolbarButton,
-  GridDensitySelector,
-  useGridSlotComponentProps,
-} from "@material-ui/data-grid";
+import { Mastercontext } from "../useContext/MasterContext";
 
-import Pagination from "@material-ui/lab/Pagination";
+const TableData = ({ columns, rows, filterModel, modifyColums }) => {
+  const { masterData, setMasterData } = useContext(Mastercontext);
 
-const useStyles = makeStyles({
-  root: {
-    display: "flex",
-  },
-});
+  const [filters, setFilters] = useState({});
 
-function CustomPagination() {
-  const { state, apiRef } = useGridSlotComponentProps();
-  const classes = useStyles();
+  const dynamicColumns = columns.map((col, i) => {
+    return (
+      <Column
+        key={col.field}
+        field={col.field}
+        header={col.header}
+        sortable={col.sortable}
+        headerStyle={col.headerStyle}
+        body={modifyColums ? (rows, col) =>modifyColums(rows, col):""}
+      />
+    );
+  });
 
+  console.log(masterData);
   return (
-    <Pagination
-      className={classes.root}
-      color="primary"
-      // variant="outlined"
-      count={state.pagination.pageCount}
-      page={state.pagination.page + 1}
-      onChange={(event, value) => apiRef.current.setPage(value - 1)}
-    />
-  );
-}
-
-function CustomToolbar() {
-  return (
-    <GridToolbarContainer>
-      <GridColumnsToolbarButton />
-      <GridFilterToolbarButton />
-      {/* <GridDensitySelector /> */}
-      {/* <GridToolbarExport /> */}
-    </GridToolbarContainer>
-  );
-}
-
-const DataTable = ({ columns, rows, filterModel }) => {
-  return (
-    <DataGrid
-      columns={columns}
-      rows={rows}
-      components={{
-        Toolbar: CustomToolbar,
-        Pagination: CustomPagination,
-      }}
-      pageSize={10}
-      rowsPerPageOptions={[10, 20, 50, 100]}
-      pagination
-      // checkboxSelection
-      rowHeight={35}
-      filterModel={filterModel}
-      disableColumnFilter
-      disableColumnMenu
-      // autoPageSize={true}
-      loading={rows.length > 0 ? false : true}
-    />
+    <div>
+      <div
+        className="card"
+        style={{ width: "100%", border: "1px solid #e9ecef" }}
+      >
+        <DataTable
+          filters={filterModel}
+          onFilter={setFilters ?(e) =>setFilters(e.filters):""}
+          emptyMessage="No customers found."
+          value={rows}
+          paginator
+          rows={10}
+          // rowsPerPageOptions={[10, 20, 50]}
+          paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
+          resizableColumns
+          columnResizeMode="expand"
+          showGridlines
+          className="p-datatable-sm"
+          scrollable
+          scrollHeight="515px"
+          style={{
+            width: masterData && !masterData.setOpen ? "1437px" : "1190px",
+          }}
+        >
+          {dynamicColumns}
+        </DataTable>
+      </div>
+    </div>
   );
 };
 
-export default DataTable;
+export default TableData;

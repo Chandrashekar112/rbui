@@ -11,19 +11,16 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import parse from "autosuggest-highlight/parse";
 import match from "autosuggest-highlight/match";
 
-import { useForm, FormProvider, Controller } from "react-hook-form";
+import { useForm} from "react-hook-form";
 
-import services from "../../services";
+import services from "../../../services";
 
-import DataTable from "../common/DataTable";
+import DataTable from "../../common/DataTable";
 
-import TableData from "./TableData";
-
-import TextFieldGroup from "../common/TextFieldGroup";
 
 import AddRetailer from "./AddRetailer";
 
-import { Mastercontext } from "../useContext/MasterContext";
+import { Mastercontext } from "../../useContext/MasterContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -196,8 +193,9 @@ const Orders = () => {
         .RetailerSetting()
         .then((response) => searchFun(response.data.data))
         .catch((error) => console.log(error));
-
-      setMasterData({ ...masterData, updateFlag: false });
+      if (masterData && masterData.updateFlag) {
+        setMasterData({ ...masterData, updateFlag: false });
+      }
     };
     MasterData();
   }, [masterData.updateFlag]);
@@ -422,7 +420,7 @@ const Orders = () => {
       </Paper>
 
       <Paper className={classes.paper}>
-        <TableData
+        <DataTable
           columns={columns}
           rows={userData()}
           filterModel={filterData()}
