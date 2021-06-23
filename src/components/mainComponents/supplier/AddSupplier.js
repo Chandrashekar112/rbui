@@ -54,15 +54,13 @@ const AddSupplier = ({  open,
       console.log(selectedData);
       setValue("supplier", selectedData.supplier);
       setValue("brand", selectedData.brand);
-      setValue("last_updated", selectedData.last_updated);
-      setValue("updated_by", selectedData.updated_by);
+     
     
     } else if (!selectedData) {
       reset({
         supplier: "",
         brand: "",
-        last_updated: "",
-        updated_by: "",
+      
       });
     }
   },[selectedData])
@@ -86,7 +84,7 @@ const AddSupplier = ({  open,
       aria-describedby="scroll-dialog-description"
     >
       <DialogTitle id="scroll-dialog-title">
-        {editFlag === "Edit" ? "Edit Retailer" : "Add New Retailer"}
+        {editFlag === "Edit" ? "Edit Supplier" : "Add New Retailer"}
       </DialogTitle>
       <form>
         <DialogContent dividers={scroll === "paper"}>
@@ -95,7 +93,7 @@ const AddSupplier = ({  open,
             ref={descriptionElementRef}
             tabIndex={-1}
           >
-              <Grid container spacing={2}>
+              <Grid container spacing={2} style={{width:"800px"}}>
               <Grid item sm={6} >
                 <TextFieldGroup
                   name="brand"
@@ -123,34 +121,6 @@ const AddSupplier = ({  open,
                 />
               </Grid>
             
-                <Grid item sm={6} >
-                <TextFieldGroup
-                  name="last_updated"
-                  control={control}
-                  defaultValue={""}
-                  label="Last Updated"
-                    className={classes.textField}
-                    disabled={editFlag === "Edit" ? true : false}
-                  margin="dense"
-                  variant="outlined"
-                //   rules={RetailerSettingValidation.retailer_name}
-                />
-                </Grid>
-
-                <Grid item sm={6} >
-                <TextFieldGroup
-                  name="updated_by"
-                  control={control}
-                  defaultValue={""}
-                  label="Updated By"
-                    className={classes.textField}
-                    disabled={editFlag === "Edit" ? true : false}
-                  margin="dense"
-                  variant="outlined"
-                //   rules={RetailerSettingValidation.retailer_name}
-                />
-                </Grid>
-
             </Grid>
           </DialogContentText>
         </DialogContent>

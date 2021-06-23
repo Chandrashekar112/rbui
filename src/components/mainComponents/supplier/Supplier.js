@@ -390,7 +390,7 @@ const Supplier = () => {
         <Grid container spacing={2}>
           <Grid item sm={8}></Grid>
           <Grid item sm={4}>
-            <Button
+            {/* <Button
               className={classes.btn}
               variant="contained"
               size="small"
@@ -399,7 +399,7 @@ const Supplier = () => {
               onClick={handleClickOpen("paper", "new")}
             >
               Add New Supplier
-            </Button>
+            </Button> */}
             <Button
               className={classes.btn}
               variant="contained"
@@ -428,17 +428,7 @@ const Supplier = () => {
           //   searchObj && searchObj.retailerState ? searchObj.retailerState : []
           // }
         />
-      ) : editFlag === "new" ? (
-        <AddSupplier
-          open={open}
-          scroll={scroll}
-          descriptionElementRef={descriptionElementRef}
-          handleClose={handleClose}
-          // retailerStateArr={
-          //   searchObj && searchObj.retailerState ? searchObj.retailerState : []
-          // }
-        />
-      ) : (
+      ) :(
         ""
       )}
         
