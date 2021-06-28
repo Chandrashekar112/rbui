@@ -56,15 +56,12 @@ const Supplier = () => {
   const [open, setOpen] = React.useState(false);
   const [scroll, setScroll] = React.useState("paper");
   const [editFlag, setEditFlag] = useState("");
+  const { masterData, setMasterData } = useContext(Mastercontext);
 
  
 
   useEffect(() => {
-    let MasterData = async () => {
-      serviceFun();
-     
-    };
-    MasterData();
+    serviceFun();
   }, [])
 
   const serviceFun = async (checked) => {
@@ -76,9 +73,10 @@ const Supplier = () => {
     } else{
       await services.supplierService
       .getSuppliers()
-      .then((response) => searchFun(response.data.data))
+      .then((response) => searchFun(response.data.data,"list"))
       .catch((error) => console.log(error));
     }
+    setSelectedValue({});
   }
 
   
@@ -168,13 +166,14 @@ const Supplier = () => {
   /* dataTable end */
 
 
-  const searchFun = async (data) => {
+  const searchFun = async (data,list) => {
     setSupplier(data);
 
     const searchObj = {
       supplier: [],
       brand: [],
     };
+
     let unicSupplier = Array.from(new Set(data.map((a) => a.supplier))).map((id) => { return data.find((a) => a.supplier === id) });
     searchObj.supplier = unicSupplier.filter((item, i) => {
       if (item.supplier && !(item.supplier === "-" || item.supplier ===null || item.supplier ===undefined)) {
@@ -184,6 +183,13 @@ const Supplier = () => {
     searchObj.supplier.sort((a, b) => {
       return a.supplier.localeCompare(b.supplier);
     });
+  
+
+    if (list) {
+         setMasterData({ ...masterData, supplierList: searchObj });
+    }
+    // masterData, setMasterData
+    
 
     searchObj.brand = data.filter((item, i) => {
       if (item.brand && !(item.brand === "-" || item.brand ===null || item.brand ===undefined)) {
@@ -193,14 +199,13 @@ const Supplier = () => {
     searchObj.brand.sort((a, b) => {
       return a.brand.localeCompare(b.brand);
     });
-
+    // setMasterData({ ...masterData, brands: searchObj });
     await setSearchObj(searchObj);
  
   }
 
   const onSubmit = async (data) => {
-    console.log(data);
-      setSelectedValue({});
+    setSelectedValue({});
       let searchValues = {};
       if (supplierName && supplierName.supplier) {
         searchValues.supplierName = supplierName;
@@ -390,7 +395,7 @@ const Supplier = () => {
         <Grid container spacing={2}>
           <Grid item sm={8}></Grid>
           <Grid item sm={4}>
-            {/* <Button
+            <Button
               className={classes.btn}
               variant="contained"
               size="small"
@@ -398,8 +403,8 @@ const Supplier = () => {
               startIcon={<AddIcon />}
               onClick={handleClickOpen("paper", "new")}
             >
-              Add New Supplier
-            </Button> */}
+             Add new Brand
+            </Button>
             <Button
               className={classes.btn}
               variant="contained"
@@ -422,13 +427,26 @@ const Supplier = () => {
           descriptionElementRef={descriptionElementRef}
           handleClose={handleClose}
           editFlag={editFlag}
-          // selectedData={selectedValue ? selectedValue.row : {}}
           selectedData={selectedValue}
-          // retailerStateArr={
-          //   searchObj && searchObj.retailerState ? searchObj.retailerState : []
-          // }
+          suppliersList={
+            // searchObj &&  searchObj.supplier ?  searchObj.supplier :[]
+            masterData && masterData.supplierList ? masterData.supplierList.supplier:searchObj.supplier
+          }
+          unmappedBrands={unmapped_brands}
+          serviceFun={serviceFun}
         />
-      ) :(
+      ) :editFlag === "new" ? (
+        <AddSupplier
+          open={open}
+          scroll={scroll}
+          descriptionElementRef={descriptionElementRef}
+          handleClose={handleClose}
+          suppliersList={
+            masterData && masterData.supplierList ? masterData.supplierList.supplier:searchObj.supplier
+          }
+          serviceFun={serviceFun}
+        />
+      ):(
         ""
       )}
         

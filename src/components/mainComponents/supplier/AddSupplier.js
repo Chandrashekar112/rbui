@@ -6,7 +6,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import TextField from "@material-ui/core/TextField";
-import Autocomplete from "@material-ui/lab/Autocomplete";
+import Autocomplete,{ createFilterOptions } from "@material-ui/lab/Autocomplete";
 import Grid from "@material-ui/core/Grid";
 import { useForm, Controller } from "react-hook-form";
 import { makeStyles } from "@material-ui/core/styles";
@@ -31,7 +31,9 @@ const useStyles = makeStyles((theme) => ({
     btn: {
       marginRight: "10px",
     },
-  }));
+}));
+  
+const filter = createFilterOptions();
 
 const AddSupplier = ({  open,
     scroll,
@@ -39,20 +41,19 @@ const AddSupplier = ({  open,
     handleClose,
     editFlag,
     selectedData,
-  retailerStateArr
+  suppliersList,
+  unmappedBrands,
+  serviceFun
 }) => {
         const classes = useStyles();
         const methods = useForm();
         const { register, control, handleSubmit, setValue, reset } = methods;
-        const [retailerState, setRetailerState] = useState({});
-        const [include_tax, setIncludeTax] = useState(false);
-        const [include_ccfee, setIncludeCCfee] = useState(false);
-  const { masterData, setMasterData } = useContext(Mastercontext);
+        const [supplier, setSupplier] = useState({});
+       const { masterData, setMasterData } = useContext(Mastercontext);
 
   useEffect(() => {
     if (selectedData) {
-      console.log(selectedData);
-      setValue("supplier", selectedData.supplier);
+      setSupplier({ supplier: selectedData.supplier });
       setValue("brand", selectedData.brand);
      
     
@@ -62,19 +63,90 @@ const AddSupplier = ({  open,
         brand: "",
       
       });
+      setSupplier({ });
     }
   },[selectedData])
 
   const save = async (data) => {
-    console.log(data);
+    // console.log(data);
+    data.supplier = supplier.supplier;
+    let Data = data;
+    await services.supplierService.addSupplier(Data).then((response) => {
+      Swal.fire({
+        title: "Success!",
+        text: response.data.message,
+        icon: "success",
+        confirmButtonText: "Ok",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          handleClose();
+          serviceFun();
+        }
+      });
+    }).catch((err) => {
+      console.log(err)
+    });
 
   }
 
   const update = async (data) => {
-
+    console.log(data,unmappedBrands);
+    data.supplier = supplier.supplier;
+    let id = data.brand;
+    let Data = data;
+    console.log(Data);
+    if (unmappedBrands) {
+     await services.supplierService.addSupplierUnmappedBrands(Data).then((response)=>{
+      Swal.fire({
+        title: "Success!",
+        text: response.data.message,
+        icon: "success",
+        confirmButtonText: "Ok",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          handleClose();
+          serviceFun();
+        }
+      });
+     }).catch((err) => {
+      if (err.response && err.response.status === 400) {
+        Swal.fire({
+          title: "Error!",
+          text: err.response.data.message,
+          icon: "error",
+          confirmButtonText: "Ok",
+        });
+      }
+     })
+    }else{
+   await services.supplierService.updateSupplier(id,Data).then((response) => {
+    Swal.fire({
+      title: "Success!",
+      text: response.data.message,
+      icon: "success",
+      confirmButtonText: "Ok",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        handleClose();
+        serviceFun();
+      }
+    });
+   }).catch((err) => {
+    if (err.response && err.response.status === 400) {
+      Swal.fire({
+        title: "Error!",
+        text: err.response.data.message,
+        icon: "error",
+        confirmButtonText: "Ok",
+      });
+    }
+  
+    });
+  }
   }
 
-    return   (<div>
+
+    return(<div>
     <Dialog
       maxWidth="lg"
       open={open}
@@ -84,7 +156,7 @@ const AddSupplier = ({  open,
       aria-describedby="scroll-dialog-description"
     >
       <DialogTitle id="scroll-dialog-title">
-        {editFlag === "Edit" ? "Edit Supplier" : "Add New Retailer"}
+        {editFlag === "Edit" ? "Edit Supplier" : "Add New Brand"}
       </DialogTitle>
       <form>
         <DialogContent dividers={scroll === "paper"}>
@@ -104,22 +176,42 @@ const AddSupplier = ({  open,
                     disabled={editFlag === "Edit" ? true : false}
                   margin="dense"
                   variant="outlined"
-                //   rules={RetailerSettingValidation.retailer_name}
+                  // rules={SupplierBrandsValidation.brand}
                 />
                 </Grid>
 
-                <Grid item sm={6} >
-                <TextFieldGroup
-                  name="supplier"
-                  control={control}
-                  defaultValue={""}
-                  label="Supplier"
-                  className={classes.textField}
-                  margin="dense"
-                  variant="outlined"
-                  rules={SupplierBrandsValidation.supplier}
-                />
-              </Grid>
+            
+                <Grid item sm={6}>
+                <Autocomplete
+                    size="small"
+                    value={supplier}
+                    onChange={(event, newValue) => {
+                      setSupplier(newValue);
+                    }}
+                    options={suppliersList}
+                    getOptionLabel={(option) => option.supplier}
+                    freeSolo
+                    renderInput={(params) => (
+                      <Controller
+                        render={({ fieldState: { error } }) => (
+                          <TextField
+                            {...params}
+                            label="supplier"
+                            placeholder="Supplier"
+                            margin="dense"
+                            variant="outlined"
+                            error={!!error}
+                            helperText={error ? error.message : null}
+                          />
+                        )}
+                        name="supplier"
+                        control={control}
+                        
+                        // rules={SupplierBrandsValidation.supplier}
+                      />
+                    )}
+                  />
+                  </Grid>
             
             </Grid>
           </DialogContentText>
@@ -130,7 +222,7 @@ const AddSupplier = ({  open,
           </Button>
 
           {editFlag === "Edit" ? (
-            <Button onClick={handleSubmit(update)} color="primary">
+            <Button onClick={handleSubmit(update)} color="primary" disabled={supplier && supplier.supplier ? false:true}>
               Update
             </Button>
           ) : (

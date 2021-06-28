@@ -188,17 +188,16 @@ const Orders = () => {
   ];
 
   useEffect(() => {
-    let MasterData = async () => {
-      await services.retailerService
-        .RetailerSetting()
-        .then((response) => searchFun(response.data.data))
-        .catch((error) => console.log(error));
-      if (masterData && masterData.updateFlag) {
-        setMasterData({ ...masterData, updateFlag: false });
-      }
-    };
-    MasterData();
-  }, [masterData.updateFlag]);
+    serviceFun();
+  }, []);
+
+  const serviceFun = async() => {
+    await services.retailerService
+    .RetailerSetting()
+    .then((response) => searchFun(response.data.data))
+    .catch((error) => console.log(error));
+}
+
 
   const searchFun = async (data) => {
     setRetailer(data);
@@ -469,6 +468,7 @@ const Orders = () => {
           retailerStateArr={
             searchObj && searchObj.retailerState ? searchObj.retailerState : []
           }
+          serviceFun={serviceFun}
         />
       ) : editFlag === "new" ? (
         <AddRetailer
@@ -479,6 +479,7 @@ const Orders = () => {
           retailerStateArr={
             searchObj && searchObj.retailerState ? searchObj.retailerState : []
           }
+          serviceFun={serviceFun}
         />
       ) : (
         ""

@@ -20,7 +20,6 @@ import services from "../../../services";
 
 import RetailerSettingValidation from "../../common/validations/retailerSetting";
 
-import { Mastercontext } from "../../useContext/MasterContext";
 
 const useStyles = makeStyles((theme) => ({
   textField: {
@@ -40,6 +39,7 @@ export default function AddRetailer({
   editFlag,
   selectedData,
   retailerStateArr,
+  serviceFun
 }) {
   const classes = useStyles();
   const methods = useForm();
@@ -47,7 +47,6 @@ export default function AddRetailer({
   const [retailerState, setRetailerState] = useState({});
   const [include_tax, setIncludeTax] = useState(false);
   const [include_ccfee, setIncludeCCfee] = useState(false);
-  const { masterData, setMasterData } = useContext(Mastercontext);
 
   useEffect(() => {
     if (selectedData) {
@@ -112,7 +111,7 @@ export default function AddRetailer({
         }).then((result) => {
           if (result.isConfirmed) {
             handleClose();
-            setMasterData({ ...masterData, updateFlag: true });
+            serviceFun();
           }
         });
       })
@@ -146,8 +145,7 @@ export default function AddRetailer({
         }).then((result) => {
           if (result.isConfirmed) {
             handleClose();
-
-            setMasterData({ ...masterData, updateFlag: true });
+            serviceFun();
           }
         });
       })

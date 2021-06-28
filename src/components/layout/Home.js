@@ -20,6 +20,8 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 
+import { PanelMenu } from 'primereact/panelmenu';
+
 import Routes from "../routes/Routes";
 
 import { Mastercontext } from "../useContext/MasterContext";
@@ -108,21 +110,87 @@ const Home = () => {
   };
 
   const listItems = () => {
-    const list = [
-      { menuName: "Home", pathName: "/" },
-      // { menuName: "Orders", pathName: "/orders" },
-      { menuName: "Retailer Setting", pathName: "/retailer" },
-      { menuName: "Brand Suppliers", pathName: "/supplier" },
-    ];
+    // const list = [
+    //   { menuName: "Home", pathName: "/" },
+    //   // { menuName: "Orders", pathName: "/orders" },
+    //   { menuName: "Retailer Setting", pathName: "/retailer" },
+    //   { menuName: "Brand Suppliers", pathName: "/supplier" },
+    // ];
+    const items = [
+      {
+        label: 'Home',
+        template: (item, options) => {
+            return (
+                /* custom element */
+                <Link to={'/'} className={options.className} target={item.target} style={{color:"#3f51b5"}}>
+                    <span className={"pi pi-fw pi-home"}></span>
+                    <span className={options.labelClassName}>{item.label}</span>
+                </Link>
+            );
+        }
+      },
 
-    return list.map((item, index) => (
-      <ListItem button key={index}>
-        <Link to={`${item.pathName}`}>
-          <ListItemIcon>{item.menuIcon}</ListItemIcon>
-          <ListItemText primary={item.menuName} />
-        </Link>
-      </ListItem>
-    ));
+      {
+        label: 'Retailer Setting',
+        template: (item, options) => {
+            return (
+                /* custom element */
+                <Link to={'/retailer'} className={options.className} target={item.target} style={{color:"#3f51b5"}}>
+                    {/* <span className={"pi pi-fw pi-plus"}></span> */}
+                    <span className={options.labelClassName}>{item.label}</span>
+                </Link>
+            );
+        }
+      },
+      
+      {
+        label: 'Brand Suppliers',
+        template: (item, options) => {
+            return (
+                /* custom element */
+                <Link to={'/supplier'} className={options.className} target={item.target} style={{color:"#3f51b5"}}>
+                    {/* <span className={"pi pi-fw pi-plus"}></span> */}
+                    <span className={options.labelClassName}>{item.label}</span>
+                </Link>
+            );
+        }
+    },
+
+
+      // {
+      //   label: 'Retailer Setting',
+      //   icon: 'pi pi-fw pi-plus',
+      //   items: [
+      //     {
+      //       label: '',
+      //       template: (item, options) => {
+      //           return (
+      //               /* custom element */
+      //               <Link to={'/retailer'} className={options.className} target={item.target} >
+      //                   <span className={"pi pi-fw pi-plus"}></span>
+      //                   <span className={options.labelClassName}>{item.label}</span>
+      //               </Link>
+      //           );
+      //       }
+      //   },
+       
+      //   ]
+      // },]
+  ]
+
+      return  ( <div className="card">
+      <PanelMenu model={items} style={{ width: '100%' }}/>
+  </div>)
+
+
+    // return list.map((item, index) => (
+    //   <ListItem button key={index}>
+    //     <Link to={`${item.pathName}`}>
+    //       <ListItemIcon>{item.menuIcon}</ListItemIcon>
+    //       <ListItemText primary={item.menuName} />
+    //     </Link>
+    //   </ListItem>
+    // ));
   };
 
   /* Profile list */

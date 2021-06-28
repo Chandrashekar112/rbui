@@ -49,7 +49,6 @@ retailerService.RetailerStates = async () => {
 };
 
 retailerService.UpdateRetailer = async (id, data) => {
-  console.log(id);
   try {
     let res = await axios.put(
       process.env.REACT_APP_RESERVEBAR_API + `/retailer/${id}`,

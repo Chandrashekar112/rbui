@@ -145,3 +145,8 @@ code {
     margin-top: 0.5rem;
   }
 }
+
+/* side bar css */
+.p-panelmenu .p-panelmenu-header > a{
+  background: #fff !important;
+}
