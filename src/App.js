@@ -8,8 +8,11 @@ import "primeicons/primeicons.css";
 // import "primereact/resources/themes/luna-pink/theme.css";
 
 import { BrowserRouter as Router } from "react-router-dom";
-// import Routes from "../src/components/routes/Routes";
+import Signin from "../src/components/mainComponents/signup/Signin";
+import Signup from "../src/components/mainComponents/signup/Signup";
 import Home from "../src/components/layout/Home";
+
+
 import { Mastercontext } from "../src/components/useContext/MasterContext";
 
 function App() {
@@ -17,6 +20,8 @@ function App() {
   return (
     <div>
       {/* <Routes /> */}
+      {/* <Signin />
+      <Signup /> */}
       <Router>
         <Mastercontext.Provider value={{ masterData, setMasterData }}>
           <Home />

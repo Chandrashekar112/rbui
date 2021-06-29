@@ -182,15 +182,6 @@ const Home = () => {
       <PanelMenu model={items} style={{ width: '100%' }}/>
   </div>)
 
-
-    // return list.map((item, index) => (
-    //   <ListItem button key={index}>
-    //     <Link to={`${item.pathName}`}>
-    //       <ListItemIcon>{item.menuIcon}</ListItemIcon>
-    //       <ListItemText primary={item.menuName} />
-    //     </Link>
-    //   </ListItem>
-    // ));
   };
 
   /* Profile list */

@@ -6,7 +6,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import TextField from "@material-ui/core/TextField";
-import Autocomplete,{ createFilterOptions } from "@material-ui/lab/Autocomplete";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 import Grid from "@material-ui/core/Grid";
 import { useForm, Controller } from "react-hook-form";
 import { makeStyles } from "@material-ui/core/styles";
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
   
-const filter = createFilterOptions();
+
 
 const AddSupplier = ({  open,
     scroll,
@@ -43,7 +43,8 @@ const AddSupplier = ({  open,
     selectedData,
   suppliersList,
   unmappedBrands,
-  serviceFun
+  serviceFun,
+  setUNmappedBrands
 }) => {
         const classes = useStyles();
         const methods = useForm();
@@ -81,10 +82,18 @@ const AddSupplier = ({  open,
         if (result.isConfirmed) {
           handleClose();
           serviceFun();
+          setUNmappedBrands(false)
         }
       });
     }).catch((err) => {
-      console.log(err)
+      if (err.response && err.response.status === 400) {
+        Swal.fire({
+          title: "Error!",
+          text: err.response.data.message,
+          icon: "error",
+          confirmButtonText: "Ok",
+        });
+      }
     });
 
   }
@@ -106,6 +115,8 @@ const AddSupplier = ({  open,
         if (result.isConfirmed) {
           handleClose();
           serviceFun();
+          setUNmappedBrands(false);
+
         }
       });
      }).catch((err) => {
@@ -173,10 +184,11 @@ const AddSupplier = ({  open,
                   defaultValue={""}
                   label="Brand"
                     className={classes.textField}
-                    disabled={editFlag === "Edit" ? true : false}
+  
+                    disabled={editFlag === "Edit" && unmappedBrands ? true : false}
                   margin="dense"
                   variant="outlined"
-                  // rules={SupplierBrandsValidation.brand}
+                  rules={SupplierBrandsValidation.brand}
                 />
                 </Grid>
 

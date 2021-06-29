@@ -434,6 +434,7 @@ const Supplier = () => {
           }
           unmappedBrands={unmapped_brands}
           serviceFun={serviceFun}
+          setUNmappedBrands={setUNmappedBrands}
         />
       ) :editFlag === "new" ? (
         <AddSupplier
@@ -444,7 +445,8 @@ const Supplier = () => {
           suppliersList={
             masterData && masterData.supplierList ? masterData.supplierList.supplier:searchObj.supplier
           }
-          serviceFun={serviceFun}
+            serviceFun={serviceFun}
+            setUNmappedBrands={setUNmappedBrands}
         />
       ):(
         ""
