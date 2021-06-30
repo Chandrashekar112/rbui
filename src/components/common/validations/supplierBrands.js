@@ -16,7 +16,17 @@ const SupplierBrandsValidation = {
           value: 60,
           message: "Enter max 60 letters",
         },
-      },
+  },
+  brand: {
+    required: {
+      value: true,
+      message: "Brand name is required.",
+    },
+    pattern: {
+      value: /^[a-zA-Z0-9][a-zA-Z0-9\s]*$/,
+      message: "Only Uppercase and lowercase letters allowed.",
+    },
+  }
 }
 
 export default SupplierBrandsValidation;
