@@ -4,6 +4,7 @@ import { PropTypes } from "prop-types";
 import { Controller } from "react-hook-form";
 
 const TextFieldGroup = ({
+  type,
   name,
   id,
   className,
@@ -20,6 +21,7 @@ const TextFieldGroup = ({
     <Controller
       render={({ field: { onChange, value }, fieldState: { error } }) => (
         <TextField
+        type={type}
           label={label}
           value={value}
           onChange={onChange}
@@ -31,6 +33,7 @@ const TextFieldGroup = ({
           helperText={error ? error.message : null}
         />
       )}
+    
       id={id}
       name={name}
       className={className}

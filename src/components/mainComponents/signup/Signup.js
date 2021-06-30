@@ -41,7 +41,7 @@ const Signup=()=> {
           <Grid item lg={12} md={12} sm={12} xs={12} xl={12}>
              <Container maxWidth="sm">
               <Paper className={classes.paper}>
-                <h2 style={{color:"#3f51b5"}}>Signup Form</h2>
+                <h2 style={{color:"#3f51b5"}}>Sign Up </h2>
                 <form>
                 <Grid item sm={12} spacing={2}>
                 <TextFieldGroup
@@ -132,9 +132,10 @@ const Signup=()=> {
                   variant="outlined"
                   rules={SigninValidation.password}
              /> */}
-             <Button type="submit" variant="contained" color="primary" size="small" style={{ marginTop: "10px" }} onClick={handleSubmit(save)}>Signup
+             <Button type="submit" variant="contained" color="primary" size="small" style={{ marginTop: "10px" }} onClick={handleSubmit(save)}>Submit
             </Button> 
-             </Grid>
+                  </Grid>
+                  
                  </form>
                  </Paper>
                 

@@ -122,7 +122,7 @@ const Home = () => {
         template: (item, options) => {
             return (
                 /* custom element */
-                <Link to={'/'} className={options.className} target={item.target} style={{color:"#3f51b5"}}>
+                <Link to={'/dashboard'} className={options.className} target={item.target} style={{color:"#3f51b5"}}>
                     <span className={"pi pi-fw pi-home"}></span>
                     <span className={options.labelClassName}>{item.label}</span>
                 </Link>
@@ -246,7 +246,7 @@ const Home = () => {
             >
               <MenuItem onClick={ProfilehandleClose}>Profile</MenuItem>
               <MenuItem onClick={ProfilehandleClose}>My account</MenuItem>
-              <MenuItem onClick={ProfilehandleClose}>Logout</MenuItem>
+             <Link to={`/`} ><MenuItem onClick={ProfilehandleClose}>Logout</MenuItem></Link>
             </Menu>
           </div>
         </Toolbar>

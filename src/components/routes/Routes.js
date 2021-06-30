@@ -1,17 +1,20 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-
+import Signin from "../mainComponents/signup/Signin";
+import Signup from "../mainComponents/signup/Signup";
+import Home from "../layout/Home";
 import Retailer from "../mainComponents/retailer/Retailer";
 import Supplier from "../mainComponents/supplier/Supplier";
-import Signin from "../mainComponents/signup/Signin";
-import Home from "../layout/Home";
+import Dashboard from "../layout/Dashboard";
+
 
 function Routes() {
   return (
     <Switch>
-      {/* <Route exact path="/" component={Signin} /> */}
-      <Route exact path="/home" component={Home} />
+      <Route exact path="/" component={Signin} />
+      <Route exact path="/signup" component={Signup} />
+      <Route exact path="/dashboard" component={Dashboard} />
       <Route exact path="/retailer" component={Retailer} />
       <Route exact path="/supplier" component={Supplier} />
     </Switch>

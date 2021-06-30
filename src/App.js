@@ -11,21 +11,22 @@ import { BrowserRouter as Router } from "react-router-dom";
 import Signin from "../src/components/mainComponents/signup/Signin";
 import Signup from "../src/components/mainComponents/signup/Signup";
 import Home from "../src/components/layout/Home";
+import Header from "../src/components/layout/Header";
 
 
-import { Mastercontext } from "../src/components/useContext/MasterContext";
 
-function App() {
-  const [masterData, setMasterData] = useState({});
+function App(props) {
+
+  console.log(props);
   return (
     <div>
       {/* <Routes /> */}
-      {/* <Signin />
-      <Signup /> */}
+      {/* <Signin /> */}
+      {/* <Signup /> */}
       <Router>
-        <Mastercontext.Provider value={{ masterData, setMasterData }}>
-          <Home />
-        </Mastercontext.Provider>
+        <div>
+          <Header />
+        </div>
       </Router>
     </div>
   );

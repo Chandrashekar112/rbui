@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   
 const filter = createFilterOptions();
 
-const AddSupplier = ({  open,
+const AddSupplier = ({ open,
     scroll,
     descriptionElementRef,
     handleClose,
@@ -104,56 +104,56 @@ const AddSupplier = ({  open,
     let id = data.brand;
     let Data = data;
     console.log(Data);
-  //   if (unmappedBrands) {
-  //    await services.supplierService.addSupplierUnmappedBrands(Data).then((response)=>{
-  //     Swal.fire({
-  //       title: "Success!",
-  //       text: response.data.message,
-  //       icon: "success",
-  //       confirmButtonText: "Ok",
-  //     }).then((result) => {
-  //       if (result.isConfirmed) {
-  //         handleClose();
-  //         serviceFun();
-  //         setUNmappedBrands(false);
+    if (unmappedBrands) {
+     await services.supplierService.addSupplierUnmappedBrands(Data).then((response)=>{
+      Swal.fire({
+        title: "Success!",
+        text: response.data.message,
+        icon: "success",
+        confirmButtonText: "Ok",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          handleClose();
+          serviceFun();
+          setUNmappedBrands(false);
 
-  //       }
-  //     });
-  //    }).catch((err) => {
-  //     if (err.response && err.response.status === 400) {
-  //       Swal.fire({
-  //         title: "Error!",
-  //         text: err.response.data.message,
-  //         icon: "error",
-  //         confirmButtonText: "Ok",
-  //       });
-  //     }
-  //    })
-  //   }else{
-  //  await services.supplierService.updateSupplier(id,Data).then((response) => {
-  //   Swal.fire({
-  //     title: "Success!",
-  //     text: response.data.message,
-  //     icon: "success",
-  //     confirmButtonText: "Ok",
-  //   }).then((result) => {
-  //     if (result.isConfirmed) {
-  //       handleClose();
-  //       serviceFun();
-  //     }
-  //   });
-  //  }).catch((err) => {
-  //   if (err.response && err.response.status === 400) {
-  //     Swal.fire({
-  //       title: "Error!",
-  //       text: err.response.data.message,
-  //       icon: "error",
-  //       confirmButtonText: "Ok",
-  //     });
-  //   }
+        }
+      });
+     }).catch((err) => {
+      if (err.response && err.response.status === 400) {
+        Swal.fire({
+          title: "Error!",
+          text: err.response.data.message,
+          icon: "error",
+          confirmButtonText: "Ok",
+        });
+      }
+     })
+    }else{
+   await services.supplierService.updateSupplier(id,Data).then((response) => {
+    Swal.fire({
+      title: "Success!",
+      text: response.data.message,
+      icon: "success",
+      confirmButtonText: "Ok",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        handleClose();
+        serviceFun();
+      }
+    });
+   }).catch((err) => {
+    if (err.response && err.response.status === 400) {
+      Swal.fire({
+        title: "Error!",
+        text: err.response.data.message,
+        icon: "error",
+        confirmButtonText: "Ok",
+      });
+    }
   
-  //   });
-  // }
+    });
+  }
   }
 
 
