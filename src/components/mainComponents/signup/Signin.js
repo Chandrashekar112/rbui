@@ -12,6 +12,8 @@ import CheckBox from "../../common/CheckBox";
 
 import SigninValidation from "../../common/validations/signin";
 
+import services from "../../../services";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -34,12 +36,24 @@ const useStyles = makeStyles((theme) => ({
 const Sigin=(props)=> {
   const classes = useStyles();
     const methods = useForm();
-    const { register, control, handleSubmit, setValue, reset } = methods;
-  const save = (data) => {
+  const { register, control, handleSubmit, setValue, reset } = methods;
+  
+
+  const save =async (data) => {
     console.log(data);
-    let redeirectPath = `/dashboard`;
-    props.history.push(redeirectPath);
-    }
+//     await services.loginService.login(data).then((response) => {
+//       console.log(response.data.data);
+//  let redeirectPath = `/dashboard`;
+//     props.history.push(redeirectPath);
+//     })
+//       .catch((err) => console.log(err));
+    
+      let redeirectPath = `/dashboard`;
+      props.history.push(redeirectPath);
+   
+  }
+  
+
   return (
     <div className={classes.root}>
       <Container maxWidth="xl">
@@ -70,7 +84,7 @@ const Sigin=(props)=> {
                   control={control}
                   defaultValue={""}
                   label="Password"
-                    className={classes.textField}
+                  className={classes.textField}
                   margin="dense"
                   variant="outlined"
                   // rules={SigninValidation.password}

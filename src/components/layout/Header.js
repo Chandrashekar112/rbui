@@ -9,7 +9,6 @@ import { Mastercontext } from "../useContext/MasterContext";
 
 const Header = (props) => {
     const [masterData, setMasterData] = useState({});
-    console.log(props);
     const pathname = props.location.pathname;
     
     return (
