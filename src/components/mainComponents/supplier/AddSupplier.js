@@ -184,7 +184,7 @@ const AddSupplier = ({ open,
                   defaultValue={""}
                   label="Brand"
                     className={classes.textField}
-                    disabled={editFlag === "Edit" && unmappedBrands ? true : false}
+                    disabled={editFlag === "Edit"? true : false}
                   margin="dense"
                   variant="outlined"
                   rules={SupplierBrandsValidation.brand}
