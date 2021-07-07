@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect,  } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
@@ -20,7 +20,7 @@ import DataTable from "../../common/DataTable";
 
 import AddRetailer from "./AddRetailer";
 
-import { Mastercontext } from "../../useContext/MasterContext";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
 const Orders = () => {
   const classes = useStyles();
   const methods = useForm();
-  const { control, handleSubmit } = methods;
+  const { handleSubmit } = methods;
 
   const [retailer, setRetailer] = useState([]);
   const [retailerSearchObj, setretailerSearchObj] = useState({});
@@ -55,7 +55,7 @@ const Orders = () => {
   const [open, setOpen] = React.useState(false);
   const [scroll, setScroll] = React.useState("paper");
   const [editFlag, setEditFlag] = useState("");
-  const { masterData, setMasterData } = useContext(Mastercontext);
+ 
 
   const handleChange = (props) => {
     console.log(props);

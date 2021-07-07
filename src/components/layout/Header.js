@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 
 import Home from "./Home";
-// import Signin from '../mainComponents/signup/Signin';
 import Routes from '../routes/Routes';
 
 import { Mastercontext } from "../useContext/MasterContext";

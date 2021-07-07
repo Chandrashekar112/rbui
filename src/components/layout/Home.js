@@ -13,9 +13,6 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -110,12 +107,6 @@ const Home = () => {
   };
 
   const listItems = () => {
-    // const list = [
-    //   { menuName: "Home", pathName: "/" },
-    //   // { menuName: "Orders", pathName: "/orders" },
-    //   { menuName: "Retailer Setting", pathName: "/retailer" },
-    //   { menuName: "Brand Suppliers", pathName: "/supplier" },
-    // ];
     const items = [
       {
         label: 'Home',

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -43,7 +43,7 @@ export default function AddRetailer({
 }) {
   const classes = useStyles();
   const methods = useForm();
-  const { register, control, handleSubmit, setValue, reset } = methods;
+  const { control, handleSubmit, setValue, reset } = methods;
   const [retailerState, setRetailerState] = useState({});
   const [include_tax, setIncludeTax] = useState(false);
   const [include_ccfee, setIncludeCCfee] = useState(false);

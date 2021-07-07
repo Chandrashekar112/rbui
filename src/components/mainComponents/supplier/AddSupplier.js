@@ -14,7 +14,7 @@ import Swal from "sweetalert2";
 
 import TextFieldGroup from "../../common/TextFieldGroup";
 
-import CheckBox from "../../common/CheckBox";
+
 
 import services from "../../../services";
 
@@ -48,9 +48,9 @@ const AddSupplier = ({ open,
 }) => {
         const classes = useStyles();
         const methods = useForm();
-        const { register, control, handleSubmit, setValue, reset } = methods;
+        const { control, handleSubmit, setValue, reset } = methods;
         const [supplier, setSupplier] = useState({});
-       const { masterData, setMasterData } = useContext(Mastercontext);
+     
 
   useEffect(() => {
     if (selectedData) {
