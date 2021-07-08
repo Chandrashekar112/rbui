@@ -12,9 +12,8 @@ import Header from "../src/components/layout/Header";
 
 
 
-function App(props) {
+function App() {
 
-  console.log(props);
   return (
     <div>
    

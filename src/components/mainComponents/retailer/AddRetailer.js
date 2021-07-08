@@ -235,8 +235,8 @@ export default function AddRetailer({
                             placeholder="Retailer State"
                             margin="dense"
                             variant="outlined"
-                            error={!!error}
-                            helperText={error ? error.message : null}
+                            // error={!!error}
+                            // helperText={error ? error.message : null}
                           />
                         )}
                         name="retailer_state"

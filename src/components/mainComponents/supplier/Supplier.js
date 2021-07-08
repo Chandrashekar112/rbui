@@ -268,7 +268,7 @@ const Supplier = () => {
           <Paper className={classes.paper} style={{ marginBottom: "10px" }}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={2}>
-          <Grid item sm={2.5}>
+          <Grid item sm={"auto"}>
                   <CheckBox
                     label={"Show unmapped brands"}
                     name="show_unmapped_brands"
@@ -278,7 +278,7 @@ const Supplier = () => {
                   />
                 </Grid>
             <Grid item sm={3}>
-               <Autocomplete
+              <Autocomplete
                 name="Supplier"
                 value={supplierName}
                 onChange={(event, newValue) => {
