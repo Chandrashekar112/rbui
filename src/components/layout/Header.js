@@ -12,7 +12,7 @@ const Header = (props) => {
     
     return (
         <>
-            {pathname === "/"|| pathname === "/signup" ? (<Routes />) :
+            {pathname === "/" ? (<Routes />) :
                 (<Mastercontext.Provider value={{ masterData, setMasterData }}>
           <Home />
         </Mastercontext.Provider>)}

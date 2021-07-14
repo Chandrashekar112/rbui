@@ -104,19 +104,7 @@ const Sigin=(props)=> {
                   <Grid item sm={12} spacing={2}>
                   <Button type="submit" variant="contained" color="primary" size="small" style={{ marginTop: "10px" }}   className={classes.submit} onClick={handleSubmit(save)}>Submit
                     </Button>
-                   <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
-                 <Grid item>
-                      {/* to={`/signup`} */}
-              <Link variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
-               </Grid>
-               </Grid>
+                  
           </Grid>
                 
                  </form>
